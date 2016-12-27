@@ -6,17 +6,36 @@ var Inscription = require('../models/inscriptions');
 
 var listRouter = express.Router();
 
-listRouter.route('/')
+listRouter.route('/:inscriptionId')
 .get(function (req, res, next){
-  List.find({ id: req.params.inscriptionId }, function(err, list) {
+  List.find({ inscription: req.params.inscriptionId }, function(err, list) {
     if (err) return next(err);
+    console.log('Returning list of inscription ' + req.params.inscriptionId);
     res.contentType('application/json');
-    res.json(list.ships);
+    res.json(list);
   })
 })
 
+listRouter.route('/')
+.get(function(req, res, next){
+    List.find(function(err, lists){
+        if(err){
+          console.log("Error getting the lists.");
+          return next(err);
+        }
+        console.log("Returning all lists.");
+        res.contentType('application/json');
+        res.json(lists);
+    });
+})
+
 .post(function (req, res, next) {
-  List.create(req.body, function (err, list) {
+  console.log(req.body);
+  console.log(req.body.ships)
+  var list = new List(req.body);
+  console.log('L1: ' + list);
+  List.create(list, function (err, list) {
+    console.log('L2: ' + list);
     if (err) return next(err);
     list.save(function(err, resp){
       if(err) return next(err);
@@ -25,7 +44,6 @@ listRouter.route('/')
     });
   });
 })
-
 
 listRouter.route('/:listId')
 .put(function (req, res, next){

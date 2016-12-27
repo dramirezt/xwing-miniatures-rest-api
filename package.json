@@ -29,6 +29,7 @@
     "watchify": "^3.7.0"
   },
   "devDependencies": {
+    "errorhandler": "^1.5.0",
     "express-session": "^1.14.1",
     "gulp": "^3.9.1",
     "gulp-jshint": "^2.0.1",
