@@ -30,12 +30,8 @@ listRouter.route('/')
 })
 
 .post(function (req, res, next) {
-  console.log(req.body);
-  console.log(req.body.ships)
   var list = new List(req.body);
-  console.log('L1: ' + list);
   List.create(list, function (err, list) {
-    console.log('L2: ' + list);
     if (err) return next(err);
     list.save(function(err, resp){
       if(err) return next(err);

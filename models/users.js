@@ -4,8 +4,9 @@ var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
     username: { required: true, type: String, unique: true },
-    hashedPassword: { required: true, type: String },
-    salt: { required: true, type: String },
+    registerDate: { required: true, type: Date },
+    city: { required: false, type: String },
+    country: { required: false, type: String },
     organizer: {
         type: Boolean,
         default: false
@@ -13,7 +14,9 @@ var userSchema = new Schema({
     admin:   {
         type: Boolean,
         default: false
-    }
+    },
+    hashedPassword: { required: true, type: String },
+    salt: { required: true, type: String },
 });
 
 userSchema.methods.encryptPassword = function(password) {

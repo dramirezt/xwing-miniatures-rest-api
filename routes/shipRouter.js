@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var Ship = require('../models/ships');
 var Pilot = require('../models/pilots');
 var shipRouter = express.Router();
+var opencpu = require("opencpu");
 
 shipRouter.use(bodyParser.json());
 
@@ -59,6 +60,108 @@ shipRouter.route('/:shipKeyname')
         console.log("Ship with id " + ship._id + " deleted.");
         res.status(200).send('Your ship has been deleted');
     });
+})
+
+shipRouter.route('/:shipKeyname/statistics/attack')
+.get(function (req, res, next) {
+  Ship.findOne({ keyname: req.params.shipKeyname }, function (err, ship) {
+    if (err) return next(err);
+    if (ship) {
+      var seq = [];
+      for(var i = 0; i <= ship.attack; i++) {
+        seq.push(i);
+      }
+      var attackProbability = [ (4/8), (6/8), ((6/8) + (1 - 6/8)*(6/8))];
+      var results = [];
+      opencpu.rCall("/library/stats/R/dbinom/json", {
+        x: seq,
+        size: ship.attack,
+        prob: attackProbability[0]
+      }, function (err, data) {
+        if (!err) {
+          for (var i = 0; i < data.length; i++) {
+            data[i] = Number((data[i]*100).toFixed(2));
+          }
+          results.push(data);
+          opencpu.rCall("/library/stats/R/dbinom/json", {
+            x: seq,
+            size: ship.attack,
+            prob: attackProbability[1]
+          }, function (err, data) {
+            if (!err) {
+              for (var i = 0; i < data.length; i++) {
+                data[i] = Number((data[i]*100).toFixed(2));
+              }
+              results.push(data);
+              opencpu.rCall("/library/stats/R/dbinom/json", {
+                x: seq,
+                size: ship.attack,
+                prob: attackProbability[2]
+              }, function (err, data) {
+                if (!err) {
+                  for (var i = 0; i < data.length; i++) {
+                    data[i] = Number((data[i]*100).toFixed(2));
+                  }
+                  results.push(data);
+                  res.json(results);
+                } else {
+                  console.log("opencpu call failed.");
+                }
+              });
+            } else {
+              console.log("opencpu call failed.");
+            }
+          });
+        } else {
+          console.log("opencpu call failed.");
+        }
+      });
+    }
+  })
+})
+
+shipRouter.route('/:shipKeyname/statistics/agility')
+.get(function (req, res, next) {
+  Ship.findOne({ keyname: req.params.shipKeyname }, function (err, ship) {
+    if (err) return next(err);
+    if (ship) {
+      var seq = [];
+      for(var i = 0; i <= ship.agility; i++) {
+        seq.push(i);
+      }
+      var defenseProbability = [ (3/8), (5/8) ];
+      var results = [];
+      opencpu.rCall("/library/stats/R/dbinom/json", {
+        x: seq,
+        size: ship.agility,
+        prob: defenseProbability[0]
+      }, function (err, data) {
+        if (!err) {
+          for (var i = 0; i < data.length; i++) {
+            data[i] = Number((data[i]*100).toFixed(2));
+          }
+          results.push(data);
+          opencpu.rCall("/library/stats/R/dbinom/json", {
+            x: seq,
+            size: ship.agility,
+            prob: defenseProbability[1]
+          }, function (err, data) {
+            if (!err) {
+              for (var i = 0; i < data.length; i++) {
+                data[i] = Number((data[i]*100).toFixed(2));
+              }
+              results.push(data);
+              res.json(results);
+            } else {
+              console.log("opencpu call failed.");
+            }
+          });
+        } else {
+          console.log("opencpu call failed.");
+        }
+      });
+    }
+  })
 })
 
 shipRouter.route('/:shipKeyname/pilots')

@@ -17,7 +17,9 @@ userRouter.route('/')
 })
 
 .post(function(req, res, next) {
+    console.log(req.body);
     var user = new User(req.body);
+    console.log(user);
     User.create(user, function(err, user) {
         if (err) return next(err);
         user.save(function(err,user) {
