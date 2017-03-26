@@ -17,9 +17,7 @@ userRouter.route('/')
 })
 
 .post(function(req, res, next) {
-    console.log(req.body);
     var user = new User(req.body);
-    console.log(user);
     User.create(user, function(err, user) {
         if (err) return next(err);
         user.save(function(err,user) {
@@ -49,7 +47,6 @@ userRouter.route('/current')
 
 userRouter.route('/:userId')
 .get(function(req, res, next){
-    console.log(req.params.userId);
     User.findById(req.params.userId, function(err, user){
         if(err) return next(err);
         console.log("Returning user with id: " + user._id);

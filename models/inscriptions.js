@@ -6,6 +6,7 @@ var inscriptionSchema = new Schema({
     tournament: { required: true, type: Schema.Types.ObjectId },
     name: { required: true, type: String },
     victoryPoints: { required: true, type: Number, default: 0 },
+    marginOfVictory: { required: true, type: Number, default: 0 },
     strengthOfSchedule: { required: true, type: Number, default: 0 },
     swissPosition: { required: false, type: Number },
     topPosition: { required: false, type: Number },

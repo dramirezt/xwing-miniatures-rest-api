@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 
 var tournamentSchema = new Schema({
     name: { required: true, type: String },
+    tier: { required: true, type: String, default: 'Casual' },
     city: { required: true, type: String, default: '' },
     address: { required: true, type: String, default: '' },
     startDate: { required: true, type: Date },
