@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var listSchema = new Schema({
-    inscription: { required: false, type: Schema.Types.ObjectId },
+    inscription: { required: true, type: Schema.Types.ObjectId },
     // ships: [{
     //   pilot: { required: true, type: Schema.Types.ObjectId },
     //   upgrades: [{
@@ -12,7 +12,7 @@ var listSchema = new Schema({
     ships: [{
       pilot: { required: true, type: String },
       upgrades: [{
-        upgrade: { required: false, type: String }
+        name: { required: false, type: String }
       }]
     }]
 });

@@ -35,7 +35,7 @@ inscriptionRouter.route('/:tournamentId/inscriptions')
       if(tournament.finished) {
         res.status(500).send('Tournament already finished!');
       } else if(inscription.player){
-        Inscription.find({ player: inscription.player, tournament: inscription.tournament}, function (err, inscriptionAux){
+        Inscription.find({ player: inscription.player, tournament: inscription.tournament }, function (err, inscriptionAux){
           if (err) return next(err);
           if (inscriptionAux.length) {
             console.log('Error, player already in the tournament');
@@ -59,6 +59,7 @@ inscriptionRouter.route('/:tournamentId/inscriptions')
             if(err) return next(err);
             console.log("Inscription with id " + inscription._id + " created.");
             res.contentType('application/json');
+            console.log(inscription);
             res.json(inscription);
           });
         });

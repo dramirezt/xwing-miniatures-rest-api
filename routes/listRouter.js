@@ -36,7 +36,9 @@ listRouter.route('/')
     list.save(function(err, resp){
       if(err) return next(err);
       console.log("List with id " + list._id + "created.");
-      res.status(200).send('Your list has been created');
+      res.contentType('application/json');
+      res.json(list);
+      // res.status(200).send('Your list has been created');
     });
   });
 })
