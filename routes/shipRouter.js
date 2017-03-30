@@ -105,18 +105,15 @@ shipRouter.route('/:shipKeyname/statistics/attack')
                   results.push(data);
                   res.json(results);
                 } else {
-                    console.log("opencpu call failed.");
-                    return { status: '501', text: 'OpenCPU call failed.'};
+                    return next(err);
                 }
               });
             } else {
-              console.log("opencpu call failed.");
-                return { status: '501', text: 'OpenCPU call failed.'};
+                return next(err);
             }
           });
         } else {
-          console.log("opencpu call failed.");
-            return { status: '501', text: 'OpenCPU call failed.'};
+            return next(err);
         }
       });
     }
@@ -156,13 +153,11 @@ shipRouter.route('/:shipKeyname/statistics/agility')
               results.push(data);
               res.json(results);
             } else {
-              console.log("opencpu call failed.");
-              return { status: '501', text: 'OpenCPU call failed.'};
+                return next(err);
             }
           });
         } else {
-          console.log("opencpu call failed.");
-            return { status: '501', text: 'OpenCPU call failed.'};
+            return next(err);
         }
       });
     }
