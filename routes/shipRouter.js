@@ -157,10 +157,12 @@ shipRouter.route('/:shipKeyname/statistics/agility')
               res.json(results);
             } else {
               console.log("opencpu call failed.");
+              return err;
             }
           });
         } else {
           console.log("opencpu call failed.");
+          return err;
         }
       });
     }
