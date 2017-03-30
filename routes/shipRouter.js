@@ -105,15 +105,18 @@ shipRouter.route('/:shipKeyname/statistics/attack')
                   results.push(data);
                   res.json(results);
                 } else {
-                  console.log("opencpu call failed.");
+                    console.log("opencpu call failed.");
+                    return err;
                 }
               });
             } else {
               console.log("opencpu call failed.");
+                return err;
             }
           });
         } else {
           console.log("opencpu call failed.");
+            return err;
         }
       });
     }
