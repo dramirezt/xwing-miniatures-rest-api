@@ -67,6 +67,7 @@ shipRouter.route('/:shipKeyname/statistics/attack')
   Ship.findOne({ keyname: req.params.shipKeyname }, function (err, ship) {
     if (err) return next(err);
     if (ship) {
+        console.log(ship);
       var seq = [];
       for(var i = 0; i <= ship.attack; i++) {
         seq.push(i);
@@ -78,6 +79,7 @@ shipRouter.route('/:shipKeyname/statistics/attack')
         size: ship.attack,
         prob: attackProbability[0]
       }, function (err, data) {
+          console.log(err);
         if (!err) {
           for (var i = 0; i < data.length; i++) {
             data[i] = Number((data[i]*100).toFixed(2));
