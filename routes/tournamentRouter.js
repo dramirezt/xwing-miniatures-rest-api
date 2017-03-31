@@ -21,7 +21,7 @@ tournamentRouter.route('/')
 })
 
 .post(
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   function(req, res, next){
     var t = new Tournament(req.body);
     console.log(t);
