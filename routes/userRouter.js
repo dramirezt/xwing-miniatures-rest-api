@@ -36,7 +36,7 @@ userRouter.route('/current')
   if (token) {
     var decoded = jwt.decode(token, config.secretKey);
     User.findOne( { username: decoded.username }, function(err, user){
-        if(err) return next(err);
+        if(!user || err) return next(err);
         console.log("Returning user: " + user.username);
         res.contentType('application/json');
         res.json(user);

@@ -30,10 +30,10 @@ upgradeRouter.route('/')
 })
 ;
 
-upgradeRouter.route('/:upgradeId')
+upgradeRouter.route('/:upgradexws')
 .get(function(req, res, next){
-    Upgrade.findById(req.params.upgradeId, function(err, upgrade){
-        if(err) return next(err);
+    Upgrade.findOne(req.params.upgradexws, function(err, upgrade){
+        if(!upgrade || err) return next(err);
         console.log("Returning upgrade with id: " + upgrade.keyname);
         res.contentType('application/json');
         res.json(upgrade);
@@ -41,11 +41,11 @@ upgradeRouter.route('/:upgradeId')
 })
 
 .put(function(req, res, next){
-    Upgrade.findByIdAndUpdate(req.params.upgradeId, req.body, { new: true },  function(err, upgrade){
-        if(err) return next(err);
+    Upgrade.findOneAndUpdate(req.params.upgradexws, req.body, { new: true },  function(err, upgrade){
+        if(!upgrade || err) return next(err);
         upgrade.save(function(err, resp){
             if(err) return next(err);
-            console.log("Upgrade with id " + upgrade._id + " modified.");
+            console.log("Upgrade with xws " + upgrade.xws + " modified.");
             res.contentType('application/json');
             res.json(upgrade);
         });
@@ -53,9 +53,9 @@ upgradeRouter.route('/:upgradeId')
 })
 
 .delete(function(req, res, next){
-    Upgrade.findByIdAndRemove(req.params.upgradeId, function(err, upgrade){
-        if(err) return next(err);
-        console.log("Upgrade with id " + upgrade._id + " deleted.");
+    Upgrade.findOneAndDelete(req.params.upgradexws, function(err, upgrade){
+        if(!upgrade || err) return next(err);
+        console.log("Upgrade with xws " + upgrade.xws + " deleted.");
         res.status(200).send('Your upgrade has been deleted');
     });
 })

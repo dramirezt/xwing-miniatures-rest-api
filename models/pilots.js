@@ -2,14 +2,16 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var pilotSchema = new Schema({
-    name: { required: true, type: String },
-    unique: { required: true, type: Boolean, default: false },
-    pilotSkill: { required: true, type: Number, default: 1 },
-    ability: { required: false, type: String, default: '' },
-    faction: { required: true, type: Schema.Types.ObjectId, ref: 'Faction' },
-    points: { required: true, type: Number, default: 12 },
-    elitePilot: { required: false, type: Number, default: 1 },
-    ship: { required: true, type: Schema.Types.ObjectId, ref: 'Ship'}
+    "name": { required: true, type: String },
+    "ship": { required: true, type: String },
+    "skill": { required: false, type: Number },
+    "points": { required: false, type: Number },
+    "unique": { required: false, type: Boolean },
+    "slots": [ { required: false, type: String } ],
+    "text": { required: false, type: String },
+    "image": { required: false, type: String },
+    "faction": { required: true, type: String },
+    "xws": { required: true, type: String }
 });
 
 module.exports = mongoose.model('Pilots', pilotSchema);

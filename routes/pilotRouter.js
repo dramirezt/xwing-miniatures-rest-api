@@ -24,7 +24,7 @@ pilotRouter.route('/')
         if (err) return next(err);
         pilot.save(function(err, resp){
             if(err) return next(err);
-            console.log("Pilot with id " + pilot._id + " created.");
+            console.log("Pilot with xws " + pilot.pilotxws + " created.");
             res.contentType('application/json');
             res.json(pilot);
         });
@@ -32,19 +32,19 @@ pilotRouter.route('/')
 })
 ;
 
-pilotRouter.route('/:pilotId')
+pilotRouter.route('/:pilotxws')
 .get(function(req, res, next){
-    Pilot.findById(req.params.pilotId, function(err, pilot){
-        if(err) return next(err);
-        console.log("Returning pilot with id: " + id);
+    Pilot.findOne({ 'xws': req.params.pilotxws }, function(err, pilot){
+        if(!pilot || err) return next(err);
+        console.log("Returning pilot with xws: " + pilotxws);
         res.contentType('application/json');
         res.json(pilot);
     });
 })
 
 .put(function(req, res, next){
-    Pilot.findByIdAndUpdate(req.params.pilotId, req.body, { new: true },  function(err, pilot){
-        if(err) return next(err);
+    Pilot.findOneAndUpdate({ 'xws': req.params.pilotxws }, req.body, { new: true },  function(err, pilot){
+        if(!pilot || err) return next(err);
         pilot.save(function(err, resp){
             if(err) return next(err);
             console.log("Pilot with id " + pilot._id + " modified.");
@@ -55,9 +55,9 @@ pilotRouter.route('/:pilotId')
 })
 
 .delete(function(req, res, next){
-    Pilot.findByIdAndRemove(req.params.pilotId, function(err, pilot){
-        if(err) return next(err);
-        console.log("Pilot with id " + id + " deleted.");
+    Pilot.findOneAndDelete({ 'xws': { 'xws': req.params.pilotxws } }, function(err, pilot){
+        if(!pilot || err) return next(err);
+        console.log("Pilot with xws " + pilot.xws + " deleted.");
         res.status(200).send('Your pilot has been deleted');
     });
 })
