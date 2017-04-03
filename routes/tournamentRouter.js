@@ -40,6 +40,22 @@ tournamentRouter.route('/')
 })
 ;
 
+tournamentRouter.route('/import')
+.post(
+    function (req, res, next) {
+        opencpu.rCall("/library/xwingjson", {
+            object: req.body
+        }, function (err, data) {
+            if (!err) {
+                res.json(data);
+            } else {
+                console.log("opencpu call failed.");
+                return { status: '501', statusText: 'OpenCPU call failed.'};
+            }
+        });
+    }
+);
+
 tournamentRouter.route('/:tournamentId')
 .get(function(req, res, next){
     Tournament.findById(req.params.tournamentId, function(err, tournament){
