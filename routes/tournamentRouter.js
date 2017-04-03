@@ -43,16 +43,17 @@ tournamentRouter.route('/')
 tournamentRouter.route('/import')
 .post(
     function (req, res, next) {
-        opencpu.rCall("/library/xwingjson", {
-            source: req.body
-        }, function (err, data) {
-            if (!err) {
-                res.json(data);
-            } else {
-                console.log("opencpu call failed.");
-                return { status: '501', statusText: 'OpenCPU call failed.'};
-            }
-        });
+        return req.body;
+        // opencpu.rCall("/library/xwingjson", {
+        //     source: req.body
+        // }, function (err, data) {
+        //     if (!err) {
+        //         res.json(data);
+        //     } else {
+        //         console.log("opencpu call failed.");
+        //         return { status: '501', statusText: 'OpenCPU call failed.'};
+        //     }
+        // });
     }
 );
 
