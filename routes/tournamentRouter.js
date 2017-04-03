@@ -44,7 +44,7 @@ tournamentRouter.route('/import')
 .post(
     function (req, res, next) {
         opencpu.rCall("/library/xwingjson", {
-            object: req.body
+            source: req.body
         }, function (err, data) {
             if (!err) {
                 res.json(data);
