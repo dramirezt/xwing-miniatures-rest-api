@@ -5,6 +5,10 @@ var Tournament = require('../models/tournaments.js');
 var Pairing = require('../models/pairings.js');
 var tournamentRouter = express.Router();
 var passport = require('passport');
+var multer = require('multer');
+var upload = multer({ dest: 'tmp/'});
+var opencpu = require("opencpu");
+
 tournamentRouter.use(bodyParser.json());
 
 tournamentRouter.route('/')
@@ -43,17 +47,16 @@ tournamentRouter.route('/')
 tournamentRouter.route('/import')
 .post(
     function (req, res, next) {
-        return req.body;
-        // opencpu.rCall("/library/xwingjson", {
-        //     source: req.body
-        // }, function (err, data) {
-        //     if (!err) {
-        //         res.json(data);
-        //     } else {
-        //         console.log("opencpu call failed.");
-        //         return { status: '501', statusText: 'OpenCPU call failed.'};
-        //     }
-        // });
+        opencpu.rCall("/library/xwingjson/R/migrate_from_csv/json", {
+            source: req.body.data
+        }, function (err, data) {
+            if (!err) {
+                res.send(data);
+            } else {
+                console.log("opencpu call failed.");
+                next(err);
+            }
+        });
     }
 );
 

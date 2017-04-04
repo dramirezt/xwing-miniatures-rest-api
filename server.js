@@ -13,6 +13,7 @@ var express = require('express')
   , config = require('./config')
   , db = mongoose.connection
   , app = express()
+  , multer = require('multer')
 
 
 var allowCrossDomain = function(req, res, next) {
