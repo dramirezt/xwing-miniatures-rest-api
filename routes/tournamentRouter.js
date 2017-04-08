@@ -11,6 +11,17 @@ var opencpu = require("opencpu");
 
 tournamentRouter.use(bodyParser.json());
 
+tournamentRouter.route('/count')
+.get(function(req, res, next){
+    Tournament.count(function (err, count) {
+        if(err){
+            console.log("Error contando numero de elementos");
+            return next(err);
+        }
+        res.json(count);
+    })
+})
+;
 tournamentRouter.route('/:start')
 .get(function(req, res, next){
     Tournament.find(function(err, tournaments){
