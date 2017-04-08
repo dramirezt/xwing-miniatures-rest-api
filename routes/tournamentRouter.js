@@ -22,7 +22,7 @@ tournamentRouter.route('/:start')
         res.contentType('application/json');
         console.log(tournaments);
         res.json(tournaments);
-    }).skip(parseInt(req.params.start)).limit(10);
+    }).skip(parseInt(req.params.start)).limit(10).sort('-startDate');
 })
 
 .post(
