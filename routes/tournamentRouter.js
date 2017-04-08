@@ -15,7 +15,7 @@ tournamentRouter.route('/')
 .get(function(req, res, next){
     var start = 0;
     if (req.body) start = req.body;
-    Tournament.find({ skip: start, limit: 20 }, function(err, tournaments){
+    Tournament.find({ limit: 20 }, function(err, tournaments){
         if(err){
           console.log("Error leyendo los torneos");
           return next(err);
