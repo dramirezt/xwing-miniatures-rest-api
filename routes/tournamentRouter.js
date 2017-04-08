@@ -13,8 +13,9 @@ tournamentRouter.use(bodyParser.json());
 
 tournamentRouter.route('/')
 .get(function(req, res, next){
-    console.log(req.body);
-    Tournament.find({ limit: 20 }, function(err, tournaments){
+    var start = 0;
+    if (req.body) start = req.body;
+    Tournament.find({ skip: req.body },{ limit: 20 }, function(err, tournaments){
         if(err){
           console.log("Error leyendo los torneos");
           return next(err);
