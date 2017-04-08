@@ -23,7 +23,7 @@ tournamentRouter.route('/')
         console.log("Returning all tournaments.");
         res.contentType('application/json');
         res.json(tournaments);
-    });
+    }).skip(start).limit(10);
 })
 
 .post(
