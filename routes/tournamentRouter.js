@@ -14,7 +14,7 @@ tournamentRouter.use(bodyParser.json());
 tournamentRouter.route('/')
 .get(function(req, res, next){
     var start = 0;
-    if (req.body) start = req.body;
+    if (req.body.start) start = req.body.start;
     Tournament.find(function(err, tournaments){
         if(err){
           console.log("Error leyendo los torneos");
