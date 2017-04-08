@@ -75,7 +75,7 @@ tournamentRouter.route('/import')
 tournamentRouter.route('/:tournamentId')
 .get(function(req, res, next){
     Tournament.findById(req.params.tournamentId, function(err, tournament){
-        if(err | !tournament ){
+        if(err || !tournament ){
           console.log('Error getting tournament');
           return next(err);
         }
@@ -86,8 +86,6 @@ tournamentRouter.route('/:tournamentId')
 })
 
 .put(function(req, res, next){
-    console.log('------------ UPDATE TOURNAMENT ---------------');
-    console.log(req.body);
     Tournament.findByIdAndUpdate(req.params.tournamentId, req.body, { new: true },  function(err, tournament){
             if(err) return next(err);
             tournament.save(function(err, resp){
