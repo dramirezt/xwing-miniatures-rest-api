@@ -11,6 +11,27 @@ var opencpu = require("opencpu");
 
 tournamentRouter.use(bodyParser.json());
 
+
+tournamentRouter.route('/')
+    .post(
+        // passport.authenticate('jwt', { session: false }),
+        function(req, res, next){
+            var t = new Tournament(req.body);
+            Tournament.create(t, function (err, tournament) {
+                if (err) return next(err);
+                tournament.save(function(err, resp){
+                    if(err){
+                        console.log("Error saving tournament");
+                        return next(err);
+                    }
+                    console.log("Tournament with id " + tournament._id + " created.");
+                    res.contentType('application/json');
+                    res.json(tournament);
+                });
+            });
+        })
+;
+
 tournamentRouter.route('/count')
 .get(function(req, res, next){
     Tournament.count(function (err, count) {
@@ -31,30 +52,9 @@ tournamentRouter.route('/:start')
         }
         console.log("Returning all tournaments.");
         res.contentType('application/json');
-        console.log(tournaments);
         res.json(tournaments);
     }).skip(parseInt(req.params.start)).limit(10).sort('-startDate');
-})
-
-.post(
-  // passport.authenticate('jwt', { session: false }),
-  function(req, res, next){
-    var t = new Tournament(req.body);
-    console.log(t);
-    Tournament.create(t, function (err, tournament) {
-        if (err) return next(err);
-        tournament.save(function(err, resp){
-            if(err){
-                console.log("Error saving tournament");
-                return next(err);
-            }
-            console.log("Tournament with id " + tournament._id + " created.");
-            res.contentType('application/json');
-            res.json(tournament);
-        });
-    });
-})
-;
+});
 
 tournamentRouter.route('/import')
 .post(
