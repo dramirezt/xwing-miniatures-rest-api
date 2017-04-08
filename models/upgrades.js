@@ -20,6 +20,7 @@ var upgradeSchema = new Schema({
     "faction": { required: false, type: String },
     "grants": [ { type: { required: false, type: String }, name: { required: false, type: String } }],
     "size": [ { required: false, type: String } ],
+    "ships": [ { required: false, type: String }]
 
 });
 
