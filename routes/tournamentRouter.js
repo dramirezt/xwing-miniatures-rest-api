@@ -11,10 +11,8 @@ var opencpu = require("opencpu");
 
 tournamentRouter.use(bodyParser.json());
 
-tournamentRouter.route('/')
+tournamentRouter.route('/:start')
 .get(function(req, res, next){
-    var start = 0;
-    if (req.body.start) start = req.body.start;
     Tournament.find(function(err, tournaments){
         if(err){
           console.log("Error leyendo los torneos");
@@ -22,8 +20,9 @@ tournamentRouter.route('/')
         }
         console.log("Returning all tournaments.");
         res.contentType('application/json');
+        console.log(tournaments);
         res.json(tournaments);
-    }).skip(start).limit(10);
+    }).skip(req.params.start).limit(10);
 })
 
 .post(
