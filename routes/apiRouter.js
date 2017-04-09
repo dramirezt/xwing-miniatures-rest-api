@@ -34,8 +34,9 @@ apiRouter.route('/inscriptions')
         })
     })
 
+    apiRouter.route('/inscriptions/migrate/:inscriptionId')
     .put(function(req, res, next) {
-        Inscription.findByIdAndUpdate(req.body.id, req.body, { new: true },  function(err, inscription){
+        Inscription.findByIdAndUpdate(req.params.inscriptionId, req.body, { new: true },  function(err, inscription){
             if(err) return next(err);
             inscription.save(function(err, resp){
                 if(err) return next(err);
