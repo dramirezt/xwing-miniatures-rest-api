@@ -4,8 +4,9 @@ var bodyParser = require('body-parser');
 var login = require('connect-ensure-login');
 var User = require('../models/users');
 var apiRouter = express.Router();
-var config = require('../config')
-var jwt = require('jwt-simple')
+var config = require('../config');
+var jwt = require('jwt-simple');
+var Inscription = require('../models/inscriptions');
 
 apiRouter.use(bodyParser.json());
 
