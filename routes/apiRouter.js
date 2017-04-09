@@ -24,6 +24,27 @@ apiRouter.route('/')
 })
 ;
 
+apiRouter.route('/inscriptions')
+    .get(function(req, res, next) {
+        Inscription.find(function (err, inscriptions) {
+            if (err) return next(err);
+            res.contentType('application/json');
+            res.json(inscriptions);
+        })
+    })
+
+    .put(function(req, res, next) {
+        Inscription.findByIdAndUpdate(req.body._id, req.body, { new: true },  function(err, inscription){
+            if(err) return next(err);
+            inscription.save(function(err, resp){
+                if(err) return next(err);
+                console.log("Inscription with id " + inscription._id + " modified.");
+                res.contentType('application/json');
+                res.json(inscription);
+            });
+        });
+    })
+
 // route to authenticate a user (POST http://localhost:8080/api/authenticate)
 apiRouter.route('/authenticate')
 .post(function(req, res, next) {
