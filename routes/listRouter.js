@@ -64,4 +64,40 @@ listRouter.route('/:listId')
 })
 ;
 
+listRouter.route('/count/rebel')
+    .get(function(req, res, next){
+        List.count({ faction: 'Rebel Alliance' }, function (err, count) {
+            if(err){
+                console.log("Error contando numero de elementos");
+                return next(err);
+            }
+            res.json(count);
+        })
+    })
+;
+
+listRouter.route('/count/empire')
+    .get(function(req, res, next){
+        List.count({ faction: 'Galactic Empire' }, function (err, count) {
+            if(err){
+                console.log("Error contando numero de elementos");
+                return next(err);
+            }
+            res.json(count);
+        })
+    })
+;
+
+listRouter.route('/count/rebel')
+    .get(function(req, res, next){
+        List.count({ faction: 'Scum and Villainy' }, function (err, count) {
+            if(err){
+                console.log("Error contando numero de elementos");
+                return next(err);
+            }
+            res.json(count);
+        })
+    })
+;
+
 module.exports = listRouter;
