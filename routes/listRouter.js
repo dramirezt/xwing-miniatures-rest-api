@@ -88,7 +88,7 @@ listRouter.route('/count/empire')
     })
 ;
 
-listRouter.route('/count/rebel')
+listRouter.route('/count/scum')
     .get(function(req, res, next){
         List.count({ faction: 'Scum and Villainy' }, function (err, count) {
             if(err){
