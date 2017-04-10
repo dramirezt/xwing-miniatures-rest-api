@@ -58,7 +58,7 @@ tournamentRouter.route('/finished/:start')
 
 tournamentRouter.route('/following/:start')
     .get(function(req, res, next){
-        Tournament.find({ startDate: {"$gte": new Date()} }, function(err, tournaments){
+        Tournament.find({ startDate: {"$lte": new Date()} }, function(err, tournaments){
             if(err){
                 console.log("Error leyendo los torneos");
                 return next(err);
