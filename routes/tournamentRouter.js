@@ -56,7 +56,7 @@ tournamentRouter.route('/:start')
     }).skip(parseInt(req.params.start)).limit(10).sort('-startDate');
 });
 
-tournamentRouter.route('following/:start')
+tournamentRouter.route('/following/:start')
     .get(function(req, res, next){
         Tournament.find({ startDate: {"$gte": new Date()} }, function(err, tournaments){
             if(err){
