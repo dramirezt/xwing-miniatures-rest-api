@@ -43,9 +43,9 @@ tournamentRouter.route('/count')
     })
 })
 ;
-tournamentRouter.route('/:start')
+tournamentRouter.route('finished/:start')
 .get(function(req, res, next){
-    Tournament.find(function(err, tournaments){
+    Tournament.find({ finished: true }, function(err, tournaments){
         if(err){
           console.log("Error leyendo los torneos");
           return next(err);
@@ -58,7 +58,7 @@ tournamentRouter.route('/:start')
 
 tournamentRouter.route('/following/:start')
     .get(function(req, res, next){
-        Tournament.find({ startDate: {"$lte": new Date()} }, function(err, tournaments){
+        Tournament.find({ startDate: {"$gte": new Date()} }, function(err, tournaments){
             if(err){
                 console.log("Error leyendo los torneos");
                 return next(err);
