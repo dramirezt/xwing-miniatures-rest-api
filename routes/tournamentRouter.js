@@ -43,9 +43,9 @@ tournamentRouter.route('/count')
     })
 })
 ;
-tournamentRouter.route('finished/:start')
+tournamentRouter.route('/:start')
 .get(function(req, res, next){
-    Tournament.find({ startDate: {"$lte": new Date()} }, function(err, tournaments){
+    Tournament.find(function(err, tournaments){
         if(err){
           console.log("Error leyendo los torneos");
           return next(err);
@@ -56,7 +56,7 @@ tournamentRouter.route('finished/:start')
     }).skip(parseInt(req.params.start)).limit(10).sort('-startDate');
 });
 
-tournamentRouter.route('next/:start')
+tournamentRouter.route('following/:start')
     .get(function(req, res, next){
         Tournament.find({ startDate: {"$gte": new Date()} }, function(err, tournaments){
             if(err){
