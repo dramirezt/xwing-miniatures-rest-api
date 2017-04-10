@@ -43,7 +43,7 @@ tournamentRouter.route('/count')
     })
 })
 ;
-tournamentRouter.route('finished/:start')
+tournamentRouter.route('/finished/:start')
 .get(function(req, res, next){
     Tournament.find({ finished: true }, function(err, tournaments){
         if(err){
