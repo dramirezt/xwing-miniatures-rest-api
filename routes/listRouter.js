@@ -136,17 +136,16 @@ listRouter.route('/stats/pilotuse/:tournamentId')
                         pilots.push(lists[i].ships[j].pilot);
                     }
                 }
-                res.json(pilots);
-                // opencpu.rCall("/library/xwingjson/R/get_pilot_use/json", {
-                //     source: pilots
-                // }, function (err, data) {
-                //     if (!err) {
-                //         res.send(data);
-                //     } else {
-                //         console.log("opencpu call failed.");
-                //         next(err);
-                //     }
-                // });
+                opencpu.rCall("/library/xwingjson/R/get_pilot_use/json", {
+                    source: pilots
+                }, function (err, data) {
+                    if (!err) {
+                        res.send(data);
+                    } else {
+                        console.log("opencpu call failed.");
+                        next(err);
+                    }
+                });
             })
         });
     });
