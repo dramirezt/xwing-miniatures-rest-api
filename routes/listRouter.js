@@ -43,7 +43,7 @@ listRouter.route('/')
   });
 })
 
-listRouter.route('/pilotuse')
+listRouter.route('/statistics/pilotuse')
     .get(function(req, res, next){
         List.find(function(err, lists){
             if(err){
