@@ -158,13 +158,15 @@ listRouter.route('/get/lastwinner')
                 console.log("Error leyendo los torneos");
                 return next(err);
             }
-            Inscription.find({ tournament: tournament[0]._id }, function(err, inscriptions) {
+            Inscription.find({ tournament: tournament[0]._id }, function(err, inscription) {
                 if(err){
                     console.log("Error leyendo los torneos");
                     return next(err);
                 }
-                console.log(inscriptions);
-                res.json(inscriptions);
+                List.find({ inscription: inscription._id }, function (err, list) {
+                    if (err) return next(err);
+                    res.json(list);
+                })
             }).limit(1).sort({ strengthOfSchedule: -1, victoryPoints: -1, swissPosition: 1, topPosition: 1 });
         });
     });
