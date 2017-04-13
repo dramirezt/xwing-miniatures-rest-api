@@ -167,7 +167,7 @@ listRouter.route('/get/lastwinner')
             //     }
             //     res.json(inscriptions);
             // }).limit(1).sort({ topPosition: -1, swissPosition: -1, victoryPoints: -1, strengthOfSchedule: -1});
-        }).limit(1).sort({ $natural: -1});
+        });
     });
 
 module.exports = listRouter;
