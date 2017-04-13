@@ -158,7 +158,7 @@ listRouter.route('/get/lastwinner')
                 console.log("Error leyendo los torneos");
                 return next(err);
             }
-            Inscription.find({ tournament: tournament._id }, function(err, inscriptions) {
+            Inscription.find({ tournament: tournament[0]._id }, function(err, inscriptions) {
                 console.log(inscriptions);
                 if(err){
                     console.log("Error leyendo los torneos");
