@@ -153,20 +153,19 @@ listRouter.route('/stats/pilotuse/:tournamentId')
 
 listRouter.route('/get/lastwinner')
     .get(function(req, res, next) {
-        Tournament.find(function(err, tournament){
+        Tournament.find({ finished: true }, function(err, tournament){
             if(err){
                 console.log("Error leyendo los torneos");
                 return next(err);
             }
-            res.json(tournament);
-            // console.log(tournament);
-            // Inscription.find({ tournament: tournament[0]._id }, function(err, inscriptions) {
-            //     if(err){
-            //         console.log("Error leyendo los torneos");
-            //         return next(err);
-            //     }
-            //     res.json(inscriptions);
-            // }).limit(1).sort({ topPosition: -1, swissPosition: -1, victoryPoints: -1, strengthOfSchedule: -1});
+            Inscription.find({ tournament: tournament[0]._id }, function(err, inscriptions) {
+                if(err){
+                    console.log("Error leyendo los torneos");
+                    return next(err);
+                }
+                console.log(inscriptions);
+                res.json(inscriptions);
+            }).limit(1).sort({ topPosition: -1, swissPosition: -1, victoryPoints: -1, strengthOfSchedule: -1});
         });
     });
 
