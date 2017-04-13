@@ -163,7 +163,7 @@ listRouter.route('/get/lastwinner')
                     console.log("Error leyendo los torneos");
                     return next(err);
                 }
-                List.find({ inscription: inscription._id }, function (err, list) {
+                List.find({ inscription: inscription[0]._id }, function (err, list) {
                     if (err) return next(err);
                     res.json(list);
                 })
