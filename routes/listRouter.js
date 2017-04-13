@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var List = require('../models/lists');
 var Inscription = require('../models/inscriptions');
+var Tournament = require('../models/tournaments');
 var opencpu = require('opencpu');
 
 var listRouter = express.Router();
@@ -148,6 +149,24 @@ listRouter.route('/stats/pilotuse/:tournamentId')
                 });
             })
         });
+    });
+
+listRouter.route('/get/lastwinner')
+    .get(function(req, res, next) {
+        Tournament.findOne({ finished: true }, function(err, tournament){
+            if(err){
+                console.log("Error leyendo los torneos");
+                return next(err);
+            }
+            Inscription.find({ tournament: tournament._id }, function(err, inscriptions) {
+                console.log(inscriptions);
+                if(err){
+                    console.log("Error leyendo los torneos");
+                    return next(err);
+                }
+                res.json(inscriptions);
+            }).limit(1).sort({ topPosition: -1, swissPosition: -1, victoryPoints: -1, strengthOfSchedule: -1});
+        }).limit(1).sort({ $natural: -1});
     });
 
 module.exports = listRouter;
