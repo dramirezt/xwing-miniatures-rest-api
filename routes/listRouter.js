@@ -153,7 +153,7 @@ listRouter.route('/stats/pilotuse/:tournamentId')
 
 listRouter.route('/get/lastwinner')
     .get(function(req, res, next) {
-        Tournament.find({ finished: true }, function(err, tournament){
+        Tournament.find(function(err, tournament){
             if(err){
                 console.log("Error leyendo los torneos");
                 return next(err);
