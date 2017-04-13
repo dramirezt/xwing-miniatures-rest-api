@@ -111,7 +111,7 @@ listRouter.route('/stats/pilotuse')
                 }
             }
             opencpu.rCall("/library/xwingjson/R/get_pilot_use/json", {
-                source: res.json(lists)
+                source: pilots
             }, function (err, data) {
                 if (!err) {
                     res.send(data);
