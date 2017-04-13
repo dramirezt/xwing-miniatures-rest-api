@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var List = require('../models/lists');
 var Inscription = require('../models/inscriptions');
+var opencpu = require('opencpu');
 
 var listRouter = express.Router();
 
