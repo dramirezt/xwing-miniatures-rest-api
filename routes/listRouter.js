@@ -102,7 +102,7 @@ listRouter.route('/count/scum')
 
 listRouter.route('/pilotuse')
     .get(function(req, res, next){
-        List.find(function(err, lists){
+        List.find({}, function(err, lists){
             if(err){
                 console.log("Error getting the lists.");
                 return next(err);
