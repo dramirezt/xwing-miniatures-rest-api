@@ -124,4 +124,30 @@ listRouter.route('/stats/pilotuse')
         })
     });
 
+listRouter.route('/stats/pilotuse/:tournamentId')
+    .get(function(req, res, next){
+        Inscription.find({ tournament: req.params.tournamentId }, function (err, inscriptions) {
+            if (err) return next(err);
+            List.find({ inscription: { $in: inscriptions } }, function(err, lists) {
+                if (err) return next(err);
+                var pilots = [];
+                for(var i = 0; i < lists.length; i++) {
+                    for(var j = 0; j < lists[i].ships.length; j++) {
+                        pilots.push(lists[i].ships[j].pilot);
+                    }
+                }
+                opencpu.rCall("/library/xwingjson/R/get_pilot_use/json", {
+                    source: pilots
+                }, function (err, data) {
+                    if (!err) {
+                        res.send(data);
+                    } else {
+                        console.log("opencpu call failed.");
+                        next(err);
+                    }
+                });
+            })
+        });
+    });
+
 module.exports = listRouter;
