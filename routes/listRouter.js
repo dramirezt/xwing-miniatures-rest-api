@@ -110,17 +110,16 @@ listRouter.route('/pilotuse')
                     pilots.push(lists[i].ships[j].pilot);
                 }
             }
-            res.json(lists);
-            // opencpu.rCall("/library/xwingjson/R/get_pilot_use/json", {
-            //     source: req.body.data
-            // }, function (err, data) {
-            //     if (!err) {
-            //         res.send(data);
-            //     } else {
-            //         console.log("opencpu call failed.");
-            //         next(err);
-            //     }
-            // });
+            opencpu.rCall("/library/xwingjson/R/get_pilot_use/json", {
+                source: res.json(lists)
+            }, function (err, data) {
+                if (!err) {
+                    res.send(data);
+                } else {
+                    console.log("opencpu call failed.");
+                    next(err);
+                }
+            });
         })
     });
 
