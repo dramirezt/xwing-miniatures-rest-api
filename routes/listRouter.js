@@ -100,4 +100,27 @@ listRouter.route('/count/scum')
     })
 ;
 
+listRouter.route('/pilotuse')
+    .get(function(req, res, next){
+        List.find(function(err, lists) {
+            if (err) return next(err);
+            var pilots = [];
+            for(var i = 0; i < lists.length; i++) {
+                for(var j = 0; j < lists[i].ships.length; j++) {
+                    pilots.push(lists[i].ships[j].pilot);
+                }
+            }
+            opencpu.rCall("/library/xwingjson/R/get_pilot_use/json", {
+                source: req.body.data
+            }, function (err, data) {
+                if (!err) {
+                    res.send(data);
+                } else {
+                    console.log("opencpu call failed.");
+                    next(err);
+                }
+            });
+        })
+    });
+
 module.exports = listRouter;

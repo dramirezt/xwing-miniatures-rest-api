@@ -55,16 +55,17 @@ tournamentRouter.route('/finished/:start')
         res.json(tournaments);
     }).skip(parseInt(req.params.start)).limit(10).sort('-startDate');
 });
+
 tournamentRouter.route('/following/count')
-    .get(function(req, res, next){
-        Tournament.count({ startDate: {"$gte": new Date()} }, function (err, count) {
-            if(err){
-                console.log("Error contando numero de elementos");
-                return next(err);
-            }
-            res.json(count);
-        })
+.get(function(req, res, next){
+    Tournament.count({ startDate: {"$gte": new Date()} }, function (err, count) {
+        if(err){
+            console.log("Error contando numero de elementos");
+            return next(err);
+        }
+        res.json(count);
     })
+})
 ;
 tournamentRouter.route('/following/:start')
     .get(function(req, res, next){
