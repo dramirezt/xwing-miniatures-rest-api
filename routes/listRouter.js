@@ -130,14 +130,13 @@ listRouter.route('/stats/pilotuse/:tournamentId')
             if (err) return next(err);
             List.find({ inscription: { $in: inscriptions } }, function(err, lists) {
                 if (err) return next(err);
-                res.json(lists);
-                // var pilots = [];
-                // for(var i = 0; i < lists.length; i++) {
-                //     for(var j = 0; j < lists[i].ships.length; j++) {
-                //         pilots.push(lists[i].ships[j].pilot);
-                //     }
-                // }
-                // res.json(pilots);
+                var pilots = [];
+                for(var i = 0; i < lists.length; i++) {
+                    for(var j = 0; j < lists[i].ships.length; j++) {
+                        pilots.push(lists[i].ships[j].pilot);
+                    }
+                }
+                res.json(pilots);
                 // opencpu.rCall("/library/xwingjson/R/get_pilot_use/json", {
                 //     source: pilots
                 // }, function (err, data) {
