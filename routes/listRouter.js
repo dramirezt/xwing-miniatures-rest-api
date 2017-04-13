@@ -110,7 +110,7 @@ listRouter.route('/pilotuse')
             console.log("Returning all lists.");
             res.contentType('application/json');
             res.json(lists);
-        });
+        })
         // List.find(function(err, lists) {
         //     if (err) return next(err);
         //     var pilots = [];
