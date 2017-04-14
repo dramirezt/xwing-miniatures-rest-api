@@ -157,13 +157,10 @@ listRouter.route('/stats/shipuse/:tournamentId')
                 }
                 pilots.sort();
                 var counts = [];
-                var cleanPilots = uniqueArray = pilots.filter(function(elem, pos) {
-                    return pilots.indexOf(elem) == pos;
-                })
                 pilots.forEach(function(x) {
                     counts[x] = (counts[x] || 0) + 1;
                 });
-                Pilot.find({ name: { $in: cleanPilots }}, function (err, fullPilots){
+                Pilot.find({ name: { $in: pilots }}, function (err, fullPilots){
                     if(err) return next(err);
                     var test = [];
                     for (var i = 0; i < fullPilots.length; i++) {
