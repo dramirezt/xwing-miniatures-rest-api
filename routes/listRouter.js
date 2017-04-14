@@ -114,6 +114,7 @@ listRouter.route('/stats/shipuse')
                 }
             }
             pilots.sort();
+            console.log(pilots.length);
             var counts = [];
             var cleanPilots = uniqueArray = pilots.filter(function(elem, pos) {
                 return pilots.indexOf(elem) == pos;
@@ -121,9 +122,11 @@ listRouter.route('/stats/shipuse')
             pilots.forEach(function(x) {
                 counts[x] = (counts[x] || 0) + 1;
             });
+            console.log(cleanPilots.length);
             Pilot.find({ name: { $in: cleanPilots }}, function (err, fullPilots){
                 if(err) return next(err);
                 var test = [];
+                console.log(fullPilots.length);
                 for (var i = 0; i < fullPilots.length; i++) {
                     for (var j = 0; j < counts[fullPilots[i].name]; j++) {
                         test.push(fullPilots[i].ship);

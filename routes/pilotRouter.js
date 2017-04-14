@@ -24,7 +24,7 @@ pilotRouter.route('/')
         if (err) return next(err);
         pilot.save(function(err, resp){
             if(err) return next(err);
-            console.log("Pilot with xws " + pilot.pilotxws + " created.");
+            console.log("Pilot with xws " + pilot.xws + " created.");
             res.contentType('application/json');
             res.json(pilot);
         });
@@ -36,7 +36,7 @@ pilotRouter.route('/:pilotxws')
 .get(function(req, res, next){
     Pilot.findOne({ 'xws': req.params.pilotxws }, function(err, pilot){
         if(!pilot || err) return next(err);
-        console.log("Returning pilot with xws: " + pilotxws);
+        console.log("Returning pilot with xws: " + pilot.xws);
         res.contentType('application/json');
         res.json(pilot);
     });
@@ -47,7 +47,7 @@ pilotRouter.route('/:pilotxws')
         if(!pilot || err) return next(err);
         pilot.save(function(err, resp){
             if(err) return next(err);
-            console.log("Pilot with id " + pilot._id + " modified.");
+            console.log("Pilot with xws " + pilot.xws + " modified.");
             res.contentType('application/json');
             res.json(pilot);
         });
