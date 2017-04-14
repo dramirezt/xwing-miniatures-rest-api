@@ -143,6 +143,50 @@ listRouter.route('/stats/shipuse')
         })
     });
 
+listRouter.route('/stats/shipuse/:tournamentId')
+    .get(function(req, res, next){
+        Inscription.find({ tournament: req.params.tournamentId }, function (err, inscriptions) {
+            if (err) return next(err);
+            List.find({ inscription: { $in: inscriptions } }, function(err, lists) {
+                if (err) return next(err);
+                var pilots = [];
+                for(var i = 0; i < lists.length; i++) {
+                    for(var j = 0; j < lists[i].ships.length; j++) {
+                        pilots.push(lists[i].ships[j].pilot);
+                    }
+                }
+                pilots.sort();
+                var counts = [];
+                var cleanPilots = uniqueArray = pilots.filter(function(elem, pos) {
+                    return pilots.indexOf(elem) == pos;
+                })
+                pilots.forEach(function(x) {
+                    counts[x] = (counts[x] || 0) + 1;
+                });
+                Pilot.find({ name: { $in: cleanPilots }}, function (err, fullPilots){
+                    if(err) return next(err);
+                    var test = [];
+                    for (var i = 0; i < fullPilots.length; i++) {
+                        for (var j = 0; j < counts[fullPilots[i].name]; j++) {
+                            test.push(fullPilots[i].ship);
+                        }
+                    }
+                    opencpu.rCall("/library/xwingjson/R/get_pilot_use/json", {
+                        source: test
+                    }, function (err, data) {
+                        if (!err) {
+                            res.send(data);
+                        } else {
+                            console.log("opencpu call failed.");
+                            next(err);
+                        }
+                    });
+                });
+            })
+        });
+    });
+
+
 listRouter.route('/stats/pilotuse')
     .get(function(req, res, next){
         List.find(function(err, lists) {
