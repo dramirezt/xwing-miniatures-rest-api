@@ -110,6 +110,7 @@ listRouter.route('/stats/shipuse')
             var pilots = [];
             for(var i = 0; i < lists.length; i++) {
                 for(var j = 0; j < lists[i].ships.length; j++) {
+                    if(lists[i].faction !== undefined) console.log(lists[i].faction);
                     pilots.push(lists[i].ships[j].pilot);
                 }
             }
@@ -194,7 +195,7 @@ listRouter.route('/stats/pilotuse')
             var pilots = [];
             for(var i = 0; i < lists.length; i++) {
                 for(var j = 0; j < lists[i].ships.length; j++) {
-                    pilots.push(lists[i].ships[j].pilot);
+                    pilots.push(lists[i].ships[j].pilot + ' - ' + lists[i].faction);
                 }
             }
             opencpu.rCall("/library/xwingjson/R/get_pilot_use/json", {
@@ -219,7 +220,7 @@ listRouter.route('/stats/pilotuse/:tournamentId')
                 var pilots = [];
                 for(var i = 0; i < lists.length; i++) {
                     for(var j = 0; j < lists[i].ships.length; j++) {
-                        pilots.push(lists[i].ships[j].pilot);
+                        pilots.push(lists[i].ships[j].pilot + ' - ' + lists[i].faction);
                     }
                 }
                 opencpu.rCall("/library/xwingjson/R/get_pilot_use/json", {
