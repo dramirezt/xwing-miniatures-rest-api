@@ -110,7 +110,7 @@ listRouter.route('/stats/shipuse')
             var pilots = [];
             for(var i = 0; i < lists.length; i++) {
                 for(var j = 0; j < lists[i].ships.length; j++) {
-                    pilots.push({ 'name': lists[i].ships[j].pilot, 'faction': lists[i].faction });
+                    pilots.push(lists[i].ships[j].pilot);
                 }
             }
             pilots.sort();
@@ -123,7 +123,7 @@ listRouter.route('/stats/shipuse')
                 counts[x] = (counts[x] || 0) + 1;
             });
             console.log(cleanPilots.length);
-            Pilot.find({  $in: pilots }, function (err, fullPilots){
+            Pilot.find({ name: { $in: cleanPilots }}, function (err, fullPilots){
                 if(err) return next(err);
                 var test = [];
                 console.log(fullPilots.length);
