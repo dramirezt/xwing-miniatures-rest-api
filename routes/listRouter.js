@@ -123,7 +123,7 @@ listRouter.route('/stats/shipuse')
                 counts[x] = (counts[x] || 0) + 1;
             });
             console.log(cleanPilots.length);
-            Pilot.find({ name: { $in: cleanPilots }}, function (err, fullPilots){
+            Pilot.find({  $in: cleanPilots }, function (err, fullPilots){
                 if(err) return next(err);
                 var test = [];
                 console.log(fullPilots.length);
