@@ -110,7 +110,7 @@ listRouter.route('/stats/shipuse')
             var pilots = [];
             for(var i = 0; i < lists.length; i++) {
                 for(var j = 0; j < lists[i].ships.length; j++) {
-                    pilots.push(lists[i].ships[j].pilot);
+                    pilots.push({ 'name': lists[i].ships[j].pilot, 'faction': lists[i].faction });
                 }
             }
             pilots.sort();
