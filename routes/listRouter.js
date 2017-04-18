@@ -30,7 +30,14 @@ listRouter.route('/')
         res.contentType('application/json');
         res.json(lists);
     });
-})
+}
+
+    .delete(function (req, res, next) {
+        List.remove(function (err, tournament){
+            if(err) return next(err);
+            res.status(200).send('Pairings deleted for your tournament');
+        })
+    })
 
 .post(function (req, res, next) {
   var list = new List(req.body);
