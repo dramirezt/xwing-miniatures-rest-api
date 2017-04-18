@@ -33,7 +33,7 @@ listRouter.route('/')
 }
 
     .delete(function (req, res, next) {
-        List.remove(function (err, tournament){
+        List.remove({}, function (err, tournament){
             if(err) return next(err);
             res.status(200).send('Pairings deleted for your tournament');
         })
