@@ -32,7 +32,7 @@ upgradeRouter.route('/')
 
 upgradeRouter.route('/:upgradexws')
 .get(function(req, res, next){
-    Upgrade.findOne(req.params.upgradexws, function(err, upgrade){
+    Upgrade.findOne({ 'xws': req.params.upgradexws }, function(err, upgrade){
         if(!upgrade || err) return next(err);
         console.log("Returning upgrade with id: " + upgrade.keyname);
         res.contentType('application/json');
@@ -41,7 +41,7 @@ upgradeRouter.route('/:upgradexws')
 })
 
 .put(function(req, res, next){
-    Upgrade.findOneAndUpdate(req.params.upgradexws, req.body, { new: true },  function(err, upgrade){
+    Upgrade.findOneAndUpdate({ 'xws': req.params.upgradexws }, req.body, { new: true },  function(err, upgrade){
         if(!upgrade || err) return next(err);
         upgrade.save(function(err, resp){
             if(err) return next(err);
@@ -53,7 +53,7 @@ upgradeRouter.route('/:upgradexws')
 })
 
 .delete(function(req, res, next){
-    Upgrade.findOneAndDelete(req.params.upgradexws, function(err, upgrade){
+    Upgrade.findOneAndDelete({ 'xws': req.params.upgradexws }, function(err, upgrade){
         if(!upgrade || err) return next(err);
         console.log("Upgrade with xws " + upgrade.xws + " deleted.");
         res.status(200).send('Your upgrade has been deleted');
