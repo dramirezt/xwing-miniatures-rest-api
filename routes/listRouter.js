@@ -30,7 +30,7 @@ listRouter.route('/')
         res.contentType('application/json');
         res.json(lists);
     });
-}
+})
 
     .delete(function (req, res, next) {
         List.remove({}, function (err, tournament){
