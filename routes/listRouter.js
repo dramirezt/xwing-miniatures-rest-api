@@ -130,7 +130,7 @@ listRouter.route('/stats/shipuse')
                 console.log(fullPilots.length);
                 for (var i = 0; i < fullPilots.length; i++) {
                     for (var j = 0; j < counts[fullPilots[i].name]; j++) {
-                        test.push(fullPilots[i].ship);
+                        test.push(fullPilots[i].ship + ' - ' + fullPilots[i].faction);
                     }
                 }
                 opencpu.rCall("/library/xwingjson/R/get_pilot_use/json", {
@@ -169,7 +169,7 @@ listRouter.route('/stats/shipuse/:tournamentId')
                     var test = [];
                     for (var i = 0; i < fullPilots.length; i++) {
                         for (var j = 0; j < counts[fullPilots[i].name]; j++) {
-                            test.push(fullPilots[i].ship);
+                            test.push(fullPilots[i].ship + ' - ' + fullPilots[i].faction);
                         }
                     }
                     opencpu.rCall("/library/xwingjson/R/get_pilot_use/json", {
