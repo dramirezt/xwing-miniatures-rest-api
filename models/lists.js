@@ -6,6 +6,7 @@ var listSchema = new Schema({
     faction: { required: false, type: String },
     ships: [{
       pilot: { required: true, type: String },
+      ship: { required: false, type: String },
       upgrades: [{
         name: { required: false, type: String }
       }]

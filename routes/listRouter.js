@@ -107,43 +107,59 @@ listRouter.route('/stats/shipuse')
     .get(function(req, res, next){
         List.find(function(err, lists) {
             if (err) return next(err);
-            var pilots = [];
+            var ships = [];
             for(var i = 0; i < lists.length; i++) {
                 for(var j = 0; j < lists[i].ships.length; j++) {
-                    if(lists[i].faction !== undefined) console.log(lists[i].faction);
-                    pilots.push(lists[i].ships[j].pilot);
+                    ships.push(lists[i].ships[j].ship + ' - ' + lists[i].faction);
                 }
             }
-            pilots.sort();
-            console.log(pilots.length);
-            var counts = [];
-            var cleanPilots = uniqueArray = pilots.filter(function(elem, pos) {
-                return pilots.indexOf(elem) == pos;
-            })
-            pilots.forEach(function(x) {
-                counts[x] = (counts[x] || 0) + 1;
-            });
-            console.log(cleanPilots.length);
-            Pilot.find({ name: { $in: cleanPilots }}, function (err, fullPilots){
-                if(err) return next(err);
-                var test = [];
-                console.log(fullPilots.length);
-                for (var i = 0; i < fullPilots.length; i++) {
-                    for (var j = 0; j < counts[fullPilots[i].name]; j++) {
-                        test.push(fullPilots[i].ship + ' - ' + fullPilots[i].faction);
-                    }
+            opencpu.rCall("/library/xwingjson/R/get_top10/json", {
+                source: ships
+            }, function (err, data) {
+                if (!err) {
+                    res.send(data);
+                } else {
+                    console.log("opencpu call failed.");
+                    next(err);
                 }
-                opencpu.rCall("/library/xwingjson/R/get_pilot_use/json", {
-                    source: test
-                }, function (err, data) {
-                    if (!err) {
-                        res.send(data);
-                    } else {
-                        console.log("opencpu call failed.");
-                        next(err);
-                    }
-                });
             });
+            // var cleanPilots = [];
+            // var pilots = [];
+            // for(var i = 0; i < lists.length; i++) {
+            //     for(var j = 0; j < lists[i].ships.length; j++) {
+            //         if(lists[i].faction !== undefined) console.log(lists[i].faction);
+            //         cleanPilots.push(lists[i].ships[j].pilot);
+            //         pilots.push(lists[i].ships[j].pilot + " - " + lists[i].faction);
+            //     }
+            // }
+            // pilots.sort();
+            // var counts = [];
+            // cleanPilots = uniqueArray = cleanPilots.filter(function(elem, pos) {
+            //     return cleanPilots.indexOf(elem) == pos;
+            // })
+            // pilots.forEach(function(x) {
+            //     counts[x] = (counts[x] || 0) + 1;
+            // });
+            // Pilot.find({ name: { $in: cleanPilots }}, function (err, fullPilots){
+            //     if(err) return next(err);
+            //     var test = [];
+            //     console.log(fullPilots.length);
+            //     for (var i = 0; i < fullPilots.length; i++) {
+            //         for (var j = 0; j < counts[fullPilots[i].name]; j++) {
+            //             test.push(fullPilots[i].ship + ' - ' + fullPilots[i].faction);
+            //         }
+            //     }
+            //     opencpu.rCall("/library/xwingjson/R/get_top10/json", {
+            //         source: test
+            //     }, function (err, data) {
+            //         if (!err) {
+            //             res.send(data);
+            //         } else {
+            //             console.log("opencpu call failed.");
+            //             next(err);
+            //         }
+            //     });
+            // });
         })
     });
 
@@ -153,36 +169,52 @@ listRouter.route('/stats/shipuse/:tournamentId')
             if (err) return next(err);
             List.find({ inscription: { $in: inscriptions } }, function(err, lists) {
                 if (err) return next(err);
-                var pilots = [];
+                var ships = [];
                 for(var i = 0; i < lists.length; i++) {
                     for(var j = 0; j < lists[i].ships.length; j++) {
-                        pilots.push(lists[i].ships[j].pilot);
+                        ships.push(lists[i].ships[j].ship + ' - ' + lists[i].faction);
                     }
                 }
-                pilots.sort();
-                var counts = [];
-                pilots.forEach(function(x) {
-                    counts[x] = (counts[x] || 0) + 1;
-                });
-                Pilot.find({ name: { $in: pilots }}, function (err, fullPilots){
-                    if(err) return next(err);
-                    var test = [];
-                    for (var i = 0; i < fullPilots.length; i++) {
-                        for (var j = 0; j < counts[fullPilots[i].name]; j++) {
-                            test.push(fullPilots[i].ship + ' - ' + fullPilots[i].faction);
-                        }
+                opencpu.rCall("/library/xwingjson/R/get_top10/json", {
+                    source: ships
+                }, function (err, data) {
+                    if (!err) {
+                        res.send(data);
+                    } else {
+                        console.log("opencpu call failed.");
+                        next(err);
                     }
-                    opencpu.rCall("/library/xwingjson/R/get_pilot_use/json", {
-                        source: test
-                    }, function (err, data) {
-                        if (!err) {
-                            res.send(data);
-                        } else {
-                            console.log("opencpu call failed.");
-                            next(err);
-                        }
-                    });
                 });
+                // var pilots = [];
+                // for(var i = 0; i < lists.length; i++) {
+                //     for(var j = 0; j < lists[i].ships.length; j++) {
+                //         pilots.push(lists[i].ships[j].pilot);
+                //     }
+                // }
+                // pilots.sort();
+                // var counts = [];
+                // pilots.forEach(function(x) {
+                //     counts[x] = (counts[x] || 0) + 1;
+                // });
+                // Pilot.find({ name: { $in: pilots }}, function (err, fullPilots){
+                //     if(err) return next(err);
+                //     var test = [];
+                //     for (var i = 0; i < fullPilots.length; i++) {
+                //         for (var j = 0; j < counts[fullPilots[i].name]; j++) {
+                //             test.push(fullPilots[i].ship + ' - ' + fullPilots[i].faction);
+                //         }
+                //     }
+                //     opencpu.rCall("/library/xwingjson/R/get_top10/json", {
+                //         source: test
+                //     }, function (err, data) {
+                //         if (!err) {
+                //             res.send(data);
+                //         } else {
+                //             console.log("opencpu call failed.");
+                //             next(err);
+                //         }
+                //     });
+                // });
             })
         });
     });
@@ -198,7 +230,7 @@ listRouter.route('/stats/pilotuse')
                     pilots.push(lists[i].ships[j].pilot + ' - ' + lists[i].faction);
                 }
             }
-            opencpu.rCall("/library/xwingjson/R/get_pilot_use/json", {
+            opencpu.rCall("/library/xwingjson/R/get_top10/json", {
                 source: pilots
             }, function (err, data) {
                 if (!err) {
@@ -223,7 +255,7 @@ listRouter.route('/stats/pilotuse/:tournamentId')
                         pilots.push(lists[i].ships[j].pilot + ' - ' + lists[i].faction);
                     }
                 }
-                opencpu.rCall("/library/xwingjson/R/get_pilot_use/json", {
+                opencpu.rCall("/library/xwingjson/R/get_top10/json", {
                     source: pilots
                 }, function (err, data) {
                     if (!err) {
