@@ -8,7 +8,9 @@ var listSchema = new Schema({
       pilot: { required: true, type: String },
       ship: { required: false, type: String },
       upgrades: [{
-        name: { required: false, type: String }
+        name: { required: false, type: String },
+        points: { required: false, type: Number },
+        slot: { required: false, type: String }
       }]
     }]
 });

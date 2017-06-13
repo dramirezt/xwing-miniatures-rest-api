@@ -1,8 +1,10 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var Tournament = require('../models/tournaments.js');
-var Pairing = require('../models/pairings.js');
+var Inscription = require('../models/inscriptions');
+var List = require('../models/lists');
+var Tournament = require('../models/tournaments');
+var Pairing = require('../models/pairings');
 var tournamentRouter = express.Router();
 var passport = require('passport');
 var multer = require('multer');
@@ -50,7 +52,7 @@ tournamentRouter.route('/finished/:start')
           console.log("Error leyendo los torneos");
           return next(err);
         }
-        console.log("Returning all tournaments.");
+        console.log("Returning all completedTournaments.");
         res.contentType('application/json');
         res.json(tournaments);
     }).skip(parseInt(req.params.start)).limit(10).sort('-startDate');
@@ -74,7 +76,7 @@ tournamentRouter.route('/following/:start')
                 console.log("Error leyendo los torneos");
                 return next(err);
             }
-            console.log("Returning all tournaments.");
+            console.log("Returning all completedTournaments.");
             res.contentType('application/json');
             res.json(tournaments);
         }).skip(parseInt(req.params.start)).limit(10).sort('-startDate');
@@ -87,6 +89,50 @@ tournamentRouter.route('/import')
             source: req.body.data
         }, function (err, data) {
             if (!err) {
+                var obj = JSON.parse(response[0]);
+                var inscriptions = obj.inscriptions;
+                var newTournament = {
+                    name: obj.name,
+                    tier: obj.type,
+                    startDate: obj.date,
+                    maxPlayers: inscriptions.length,
+                    finished: true,
+                };
+                Tournament.create(newTournament, function (err, tournament) {
+                    if (err) return next(err);
+                    tournament.save(function(err, resp){
+                        if(err){
+                            console.log("Error saving tournament");
+                            return next(err);
+                        }
+                        console.log("Tournament with id " + tournament._id + " created.");
+                        for (var i = 0; i < inscriptions.length; i++){
+                            var newInscription = inscriptions[i];
+                            newInscription.tournament = tournament._id;
+                            Inscription.create(inscriptions[i], function (err, inscription) {
+                                if (err) return next(err);
+                                inscription.save(function(err, resp){
+                                    if(err) return next(err);
+                                    console.log("Inscription with id " + inscription._id + " created.");
+                                    var list = {
+                                        inscription: inscription,
+                                        ships: inscriptions[i].ships,
+                                        faction: inscription.faction,
+                                    };
+                                    List.create(list, function (err, list) {
+                                        if (err) return next(err);
+                                        list.save(function(err, resp){
+                                            if(err) return next(err);
+                                            console.log("List with id " + list._id + "created.");
+                                        });
+                                    });
+                                });
+                            });
+                        }
+                        res.contentType('application/json');
+                        res.json(tournament);
+                    });
+                });
                 res.send(data);
             } else {
                 console.log("opencpu call failed.");
