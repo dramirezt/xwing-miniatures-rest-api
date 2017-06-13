@@ -106,6 +106,7 @@ tournamentRouter.route('/import')
                             return next(err);
                         }
                         console.log("Tournament with id " + tournament._id + " created.");
+                        console.log('length: ' + inscriptions.length);
                         for (var i = 0; i < inscriptions.length; i++){
                             var newInscription = inscriptions[i];
                             newInscription.tournament = tournament._id;
@@ -114,7 +115,7 @@ tournamentRouter.route('/import')
                                 inscription.save(function(err, resp){
                                     if(err) return next(err);
                                     console.log("Inscription with id " + inscription._id + " created.");
-                                    if (!inscriptions[i]) console.log('FALLA EN: ' + inscriptions[i]);
+                                    if (!inscriptions[i]) console.log('FALLA EN ' + i + ': ' + inscriptions[i]);
                                     var list = {
                                         inscription: inscription,
                                         ships: inscriptions[i].ships,
