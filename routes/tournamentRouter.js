@@ -123,7 +123,7 @@ tournamentRouter.route('/import')
                                         if (err) return next(err);
                                         list.save(function(err, resp){
                                             if(err) return next(err);
-                                            console.log("List with id " + list._id + "created.");
+                                            console.log("List with id " + list._id + " created.");
                                         });
                                     });
                                 });
