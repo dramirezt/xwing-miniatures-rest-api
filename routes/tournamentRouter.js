@@ -106,29 +106,29 @@ tournamentRouter.route('/import')
                             return next(err);
                         }
                         console.log("Tournament with id " + tournament._id + " created.");
-                        // for (var i = 0; i < inscriptions.length; i++){
-                        //     var newInscription = inscriptions[i];
-                        //     newInscription.tournament = tournament._id;
-                        //     Inscription.create(inscriptions[i], function (err, inscription) {
-                        //         if (err) return next(err);
-                        //         inscription.save(function(err, resp){
-                        //             if(err) return next(err);
-                        //             console.log("Inscription with id " + inscription._id + " created.");
-                        //             var list = {
-                        //                 inscription: inscription,
-                        //                 ships: inscriptions[i].ships,
-                        //                 faction: inscription.faction,
-                        //             };
-                        //             List.create(list, function (err, list) {
-                        //                 if (err) return next(err);
-                        //                 list.save(function(err, resp){
-                        //                     if(err) return next(err);
-                        //                     console.log("List with id " + list._id + "created.");
-                        //                 });
-                        //             });
-                        //         });
-                        //     });
-                        // }
+                        for (var i = 0; i < inscriptions.length; i++){
+                            var newInscription = inscriptions[i];
+                            newInscription.tournament = tournament._id;
+                            Inscription.create(inscriptions[i], function (err, inscription) {
+                                if (err) return next(err);
+                                inscription.save(function(err, resp){
+                                    if(err) return next(err);
+                                    console.log("Inscription with id " + inscription._id + " created.");
+                                    var list = {
+                                        inscription: inscription,
+                                        ships: inscriptions[i].ships,
+                                        faction: inscription.faction,
+                                    };
+                                    List.create(list, function (err, list) {
+                                        if (err) return next(err);
+                                        list.save(function(err, resp){
+                                            if(err) return next(err);
+                                            console.log("List with id " + list._id + "created.");
+                                        });
+                                    });
+                                });
+                            });
+                        }
                         res.contentType('application/json');
                         res.json(tournament);
                     });
