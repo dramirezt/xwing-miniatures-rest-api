@@ -89,7 +89,7 @@ tournamentRouter.route('/import')
             source: req.body.data
         }, function (err, data) {
             if (!err) {
-                var obj = JSON.parse(response[0]);
+                var obj = JSON.parse(data[0]);
                 var inscriptions = obj.inscriptions;
                 var newTournament = {
                     name: obj.name,
