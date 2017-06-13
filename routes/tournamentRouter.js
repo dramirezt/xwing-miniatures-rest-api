@@ -118,7 +118,7 @@ tournamentRouter.route('/import')
                                     var list = {
                                         inscription: inscription._id,
                                         ships: inscriptions[listIndex].ships,
-                                        faction: inscriptions[listIndex].faction,
+                                        faction: inscription.faction,
                                     };
                                     listIndex++;
                                     console.log(list);
