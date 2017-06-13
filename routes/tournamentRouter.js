@@ -133,7 +133,7 @@ tournamentRouter.route('/import')
                         res.json(tournament);
                     });
                 });
-                res.send(data);
+                // res.send(data);
             } else {
                 console.log("opencpu call failed.");
                 next(err);
