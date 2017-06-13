@@ -110,6 +110,7 @@ tournamentRouter.route('/import')
                         for (var i = 0; i < inscriptions.length; i++){
                             var newInscription = inscriptions[i];
                             newInscription.tournament = tournament._id;
+                            console.log(newInscription);
                             Inscription.create(newInscription, function (err, inscription) {
                                 if (err) return next(err);
                                 inscription.save(function(err, resp){
