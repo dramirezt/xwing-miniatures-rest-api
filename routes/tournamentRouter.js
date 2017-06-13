@@ -119,6 +119,7 @@ tournamentRouter.route('/import')
                                         ships: newInscription.ships,
                                         faction: newInscription.faction,
                                     };
+                                    console.log(list);
                                     List.create(list, function (err, list) {
                                         if (err) return next(err);
                                         list.save(function(err, resp){
