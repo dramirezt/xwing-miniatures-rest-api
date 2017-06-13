@@ -114,7 +114,7 @@ tournamentRouter.route('/import')
                                 inscription.save(function(err, resp){
                                     if(err) return next(err);
                                     console.log("Inscription with id " + inscription._id + " created.");
-                                    if (!inscriptions[i].ships) console.log('FALLA EN: ' + inscriptions[i]);
+                                    if (!inscriptions[i]) console.log('FALLA EN: ' + inscriptions[i]);
                                     var list = {
                                         inscription: inscription,
                                         ships: inscriptions[i].ships,
