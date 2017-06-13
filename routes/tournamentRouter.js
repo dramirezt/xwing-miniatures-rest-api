@@ -113,7 +113,7 @@ tournamentRouter.route('/import')
                             console.log(newInscription);
                             Inscription.create(newInscription, function (err, inscription) {
                                 if (err) return next(err);
-                                inscription.save(function(err, resp){
+                                inscription.save(function(err, resp2){
                                     if(err) return next(err);
                                     console.log("Inscription with id " + inscription._id + " created.");
                                     if (!inscriptions[i]) console.log('FALLA EN ' + i + ': ' + inscriptions[i]);
@@ -124,7 +124,7 @@ tournamentRouter.route('/import')
                                     };
                                     List.create(list, function (err, list) {
                                         if (err) return next(err);
-                                        list.save(function(err, resp){
+                                        list.save(function(err, resp3){
                                             if(err) return next(err);
                                             console.log("List with id " + list._id + "created.");
                                         });
