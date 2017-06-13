@@ -109,6 +109,7 @@ tournamentRouter.route('/import')
                         for (var i = 0; i < inscriptions.length; i++){
                             var newInscription = inscriptions[i];
                             newInscription.tournament = tournament._id;
+                            currentList = inscriptions[i].ships;
                             Inscription.create(newInscription, function (err, inscription) {
                                 if (err) return next(err);
                                 inscription.save(function(err, resp){
@@ -116,7 +117,7 @@ tournamentRouter.route('/import')
                                     console.log("Inscription with id " + inscription._id + " created.");
                                     var list = {
                                         inscription: inscription._id,
-                                        ships: inscriptions[i].ships,
+                                        ships: currentList,
                                         faction: inscriptions[i].faction,
                                     };
                                     console.log(list);
