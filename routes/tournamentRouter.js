@@ -194,6 +194,7 @@ tournamentRouter.route('/import')
 
                                     inscriptions[j].list.pilots[k].upgrades = upgrades;
                                 }
+                                console.log('entra3');
                                 var list = {};
                                 if (response[j]._id) list.inscription = response[j]._id;
                                 if (inscriptions[j].list.pilots) list.ships = inscriptions[j].list.pilots;
