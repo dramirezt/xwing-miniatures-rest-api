@@ -110,6 +110,7 @@ tournamentRouter.route('/import')
                 Q.allSettled(promises).then(
                     function (response) {
                         var promises2 = [];
+                        console.log(response[0]);
                         console.log(response.length);
                         for (var j = 0; j < response.length; j++) {
                             if (inscriptions[j].list.pilots) {
@@ -237,15 +238,16 @@ tournamentRouter.route('/import')
                                 if (response[j]._id) list.inscription = response[j]._id;
                                 if (inscriptions[j].list.pilots) list.ships = inscriptions[j].list.pilots;
                                 if (inscriptions[j].list.faction) list.faction = inscriptions[j].list.faction;
-                                console.log(list);
                                 promises2.push(List.create(list));
                             }
                             else {
                                 console.log('no entra');
                             }
                         }
+                        console.log('promises 2 creado, length: ' + promises2.length);
                         Q.allSettled(promises2).then(
                             function (response) {
+                                console.log('fin de la traza');
                                 res.contentType('application/json');
                                 res.json(tournament);
                             }
