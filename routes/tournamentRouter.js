@@ -84,88 +84,80 @@ tournamentRouter.route('/following/:start')
     });
 
 tournamentRouter.route('/import')
-.post(
-    function (req, res, next) {
-        opencpu.rCall("/library/xwingjson/R/migrate_from_csv/json", {
-            source: req.body.data
-        }, function (err, data) {
-            if (!err) {
-                var obj = JSON.parse(data[0]);
-                var inscriptions = obj.inscriptions;
-                var newTournament = {
-                    name: obj.name,
-                    tier: obj.type,
-                    startDate: obj.date,
-                    maxPlayers: inscriptions.length,
-                    finished: true,
-                };
-                Tournament.create(newTournament, function (err, tournament) {
-                    if (err) return next(err);
-                    tournament.save(function(err, resp){
-                        if(err){
-                            console.log("Error saving tournament");
-                            return next(err);
-                        }
-                        var promises = [];
-                        for (var i = 0; i < inscriptions.length; i++){
-                            var newInscription = inscriptions[i];
-                            newInscription.tournament = tournament._id;
-                            promises.push(Inscription.create(newInscription));
-                        }
-                        Q.all(promises).then(
-                            function (response){
-                                var promises2 = [];
-                                for (var j = 0; j < response.length; j++) {
-                                    var list = { inscription: response[j]._id, ships: inscriptions[j].ships, faction: inscriptions[j].faction };
-                                    promises2.push(List.create(list));
-                                }
-                                Q.all(promises2).then(
-                                    function (response) {
-                                        res.contentType('application/json');
-                                        res.json(tournament);
-                                    }
-                                )
+    .post(function (req, res, next) {
+        // opencpu.rCall("/library/xwingjson/R/migrate_from_csv/json", {
+        //     source: req.body.data
+        // }, function (err, data) {
+        //     if (!err) {
+        var obj = JSON.parse(data[0]);
+        var inscriptions = obj.players;
+        var newTournament = {
+            name: obj.name,
+            tier: obj.format,
+            startDate: obj.date,
+            maxPlayers: inscriptions.length,
+            finished: true,
+        };
+        Tournament.create(newTournament, function (err, tournament) {
+            if (err) return next(err);
+            tournament.save(function (err, resp) {
+                if (err) {
+                    console.log("Error saving tournament");
+                    return next(err);
+                }
+                var promises = [];
+                for (var i = 0; i < inscriptions.length; i++) {
+                    var newInscription = inscriptions[i];
+                    newInscription.tournament = tournament._id;
+                    promises.push(Inscription.create(newInscription));
+                }
+                Q.all(promises).then(
+                    function (response) {
+                        var promises2 = [];
+                        for (var j = 0; j < response.length; j++) {
+                            for (var k = 0; k < inscriptions[j].pilots.length; k++) {
+                                var upgrades = [];
+                                upgrades.concat(inscriptions[j].pilots[k].upgrades.ept);
+                                upgrades.concat(inscriptions[j].pilots[k].upgrades.title);
+                                upgrades.concat(inscriptions[j].pilots[k].upgrades.mod);
+                                upgrades.concat(inscriptions[j].pilots[k].upgrades.crew);
+                                upgrades.concat(inscriptions[j].pilots[k].upgrades.system);
+                                upgrades.concat(inscriptions[j].pilots[k].upgrades.illicit);
+                                upgrades.concat(inscriptions[j].pilots[k].upgrades.samd);
+                                upgrades.concat(inscriptions[j].pilots[k].upgrades.cannon);
+                                upgrades.concat(inscriptions[j].pilots[k].upgrades.tech);
+                                upgrades.concat(inscriptions[j].pilots[k].upgrades.torpedo);
+                                upgrades.concat(inscriptions[j].pilots[k].upgrades.turret);
+                                upgrades.concat(inscriptions[j].pilots[k].upgrades.amd);
+                                upgrades.concat(inscriptions[j].pilots[k].upgrades.bomb);
+                                upgrades.concat(inscriptions[j].pilots[k].upgrades.missile);
+
+                                inscriptions[j].pilots[k].upgrades = upgrades;
                             }
-                        );
-                        // console.log("Tournament with id " + tournament._id + " created.");
-                        // var listIndex = 0;
-                        // for (var i = 0; i < inscriptions.length; i++){
-                        //     var newInscription = inscriptions[i];
-                        //     newInscription.tournament = tournament._id;
-                        //     Inscription.create(newInscription, function (err, inscription) {
-                        //         if (err) return next(err);
-                        //         inscription.save(function(err, resp){
-                        //             if(err) return next(err);
-                        //             console.log(inscription.name + " Inscription with id " + inscription._id + " created.");
-                        //             var list = {
-                        //                 inscription: inscription._id,
-                        //                 ships: inscriptions[listIndex].ships,
-                        //                 faction: inscriptions[listIndex].faction,
-                        //             };
-                        //             listIndex++;
-                        //             console.log(list);
-                        //             List.create(list, function (err, list) {
-                        //                 if (err) return next(err);
-                        //                 list.save(function(err, resp){
-                        //                     if(err) return next(err);
-                        //                     console.log("List with id " + list._id + " created.");
-                        //                 });
-                        //             });
-                        //         });
-                        //     });
-                        // }
-                        // res.contentType('application/json');
-                        // res.json(tournament);
-                    });
-                });
-                // res.send(data);
-            } else {
-                console.log("opencpu call failed.");
-                next(err);
-            }
-        });
-    }
-);
+                            var list = {
+                                inscription: response[j]._id,
+                                ships: inscriptions[j].pilots,
+                                faction: inscriptions[j].faction
+                            };
+                            promises2.push(List.create(list));
+                        }
+                        Q.all(promises2).then(
+                            function (response) {
+                                res.contentType('application/json');
+                                res.json(tournament);
+                            }
+                        )
+                    }
+                );
+            });
+        })
+        // } else {
+        //     console.log("opencpu call failed.");
+        //     next(err);
+        // }
+        //     });
+        // }
+    });
 
 tournamentRouter.route('/:tournamentId')
 .get(function(req, res, next){
