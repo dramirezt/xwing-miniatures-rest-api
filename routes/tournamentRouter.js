@@ -110,32 +110,14 @@ tournamentRouter.route('/import')
                         for (var i = 0; i < inscriptions.length; i++){
                             var newInscription = inscriptions[i];
                             newInscription.tournament = tournament._id;
-                            promises.push(
-                                Inscription.create(newInscription, function (err, inscription) {
-                                    if (err) return next(err);
-                                    inscription.save(function (err, resp) {
-                                        if (err) return next(err);
-                                        res.contentType('application/json');
-                                        res.json(inscription);
-                                    });
-                                })
-                            );
+                            promises.push(Inscription.create(newInscription));
                         }
                         Q.all(promises).then(
                             function (response){
                                 var promises2 = [];
                                 for (var j = 0; j < response.length; j++) {
                                     var list = { inscription: response[j]._id, ships: inscriptions[j].ships, faction: inscriptions[j].faction };
-                                    promises2.push(
-                                        List.create(list, function (err, list) {
-                                            if (err) return next(err);
-                                            list.save(function (err, resp) {
-                                                if (err) return next(err);
-                                                res.contentType('application/json');
-                                                res.json(list);
-                                            });
-                                        })
-                                    );
+                                    promises2.push(List.create(list));
                                 }
                                 Q.all(promises2).then(
                                     function (response) {
