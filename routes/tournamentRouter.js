@@ -90,7 +90,8 @@ tournamentRouter.route('/import')
         // }, function (err, data) {
         //     if (!err) {
         console.log(req.body.data);
-        var obj = JSON.parse(req.body.data);
+        // var obj = JSON.parse(req.body.data);
+        var obj = req.body.data;
         console.log(obj);
         var inscriptions = obj.tournament.players;
         var newTournament = {
