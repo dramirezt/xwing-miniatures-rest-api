@@ -114,6 +114,7 @@ tournamentRouter.route('/import')
                         for (var j = 0; j < response.length; j++) {
                             console.log('entra');
                             if (inscriptions[j].list.pilots) {
+                                console.log('entra2');
                                 for (var k = 0; k < inscriptions[j].list.pilots.length; k++) {
                                     var upgrades = [];
                                     var n;
@@ -200,6 +201,9 @@ tournamentRouter.route('/import')
                                 };
                                 console.log(list.ships);
                                 promises2.push(List.create(list));
+                            }
+                            else {
+                                console.log('no entra');
                             }
                         }
                         Q.allSettled(promises2).then(
