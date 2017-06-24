@@ -189,6 +189,8 @@ tournamentRouter.route('/import')
                                         }
                                     }
 
+                                    console.log(upgrades);
+                                    
                                     inscriptions[j].list.pilots[k].upgrades = upgrades;
                                 }
                                 var list = {
