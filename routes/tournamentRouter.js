@@ -194,12 +194,11 @@ tournamentRouter.route('/import')
 
                                     inscriptions[j].list.pilots[k].upgrades = upgrades;
                                 }
-                                var list = {
-                                    inscription: response[j]._id,
-                                    ships: inscriptions[j].list.pilots,
-                                    faction: inscriptions[j].list.faction
-                                };
-                                console.log(list.ships);
+                                var list = {};
+                                if (response[j]._id) list.inscription = response[j]._id;
+                                if (inscriptions[j].list.pilots) list.ships = inscriptions[j].list.pilots;
+                                if (inscriptions[j].list.faction) list.faction = inscriptions[j].list.faction;
+                                console.log(list);
                                 promises2.push(List.create(list));
                             }
                             else {
