@@ -114,8 +114,9 @@ tournamentRouter.route('/import')
                             if (inscriptions[j].list.pilots) {
                                 for (var k = 0; k < inscriptions[j].list.pilots.length; k++) {
                                     var upgrades = [];
+                                    var n;
                                     if (inscriptions[j].list.pilots[k].upgrades.title) {
-                                        for (var n = 0; n < inscriptions[j].list.pilots[k].upgrades.title.length; n++) {
+                                        for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.title.length; n++) {
                                             upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.title[n], slot: 'title' })
                                         }
                                     }
