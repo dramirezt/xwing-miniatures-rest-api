@@ -112,23 +112,23 @@ tournamentRouter.route('/import')
                         var promises2 = [];
                         for (var j = 0; j < response.length; j++) {
                             console.log('entra');
-                            if (inscriptions[j].pilots) {
-                                for (var k = 0; k < inscriptions[j].pilots.length; k++) {
+                            if (inscriptions[j].list.pilots) {
+                                for (var k = 0; k < inscriptions[j].list.pilots.length; k++) {
                                     var upgrades = [];
-                                    upgrades.concat(inscriptions[j].pilots[k].upgrades.ept);
-                                    upgrades.concat(inscriptions[j].pilots[k].upgrades.title);
-                                    upgrades.concat(inscriptions[j].pilots[k].upgrades.mod);
-                                    upgrades.concat(inscriptions[j].pilots[k].upgrades.crew);
-                                    upgrades.concat(inscriptions[j].pilots[k].upgrades.system);
-                                    upgrades.concat(inscriptions[j].pilots[k].upgrades.illicit);
-                                    upgrades.concat(inscriptions[j].pilots[k].upgrades.samd);
-                                    upgrades.concat(inscriptions[j].pilots[k].upgrades.cannon);
-                                    upgrades.concat(inscriptions[j].pilots[k].upgrades.tech);
-                                    upgrades.concat(inscriptions[j].pilots[k].upgrades.torpedo);
-                                    upgrades.concat(inscriptions[j].pilots[k].upgrades.turret);
-                                    upgrades.concat(inscriptions[j].pilots[k].upgrades.amd);
-                                    upgrades.concat(inscriptions[j].pilots[k].upgrades.bomb);
-                                    upgrades.concat(inscriptions[j].pilots[k].upgrades.missile);
+                                    upgrades.concat(inscriptions[j].list.pilots[k].upgrades.ept);
+                                    upgrades.concat(inscriptions[j].list.pilots[k].upgrades.title);
+                                    upgrades.concat(inscriptions[j].list.pilots[k].upgrades.mod);
+                                    upgrades.concat(inscriptions[j].list.pilots[k].upgrades.crew);
+                                    upgrades.concat(inscriptions[j].list.pilots[k].upgrades.system);
+                                    upgrades.concat(inscriptions[j].list.pilots[k].upgrades.illicit);
+                                    upgrades.concat(inscriptions[j].list.pilots[k].upgrades.samd);
+                                    upgrades.concat(inscriptions[j].list.pilots[k].upgrades.cannon);
+                                    upgrades.concat(inscriptions[j].list.pilots[k].upgrades.tech);
+                                    upgrades.concat(inscriptions[j].list.pilots[k].upgrades.torpedo);
+                                    upgrades.concat(inscriptions[j].list.pilots[k].upgrades.turret);
+                                    upgrades.concat(inscriptions[j].list.pilots[k].upgrades.amd);
+                                    upgrades.concat(inscriptions[j].list.pilots[k].upgrades.bomb);
+                                    upgrades.concat(inscriptions[j].list.pilots[k].upgrades.missile);
 
                                     console.log(upgrades);
                                     inscriptions[j].pilots[k].upgrades = upgrades;
