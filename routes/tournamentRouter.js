@@ -106,7 +106,7 @@ tournamentRouter.route('/import')
                     console.log(inscriptions[i]);
                     var newInscription = inscriptions[i];
                     newInscription.tournament = tournament._id;
-                    if (inscriptions[i].list.faction) newInscription.faction = inscriptions[i].list.faction;
+                    if (inscriptions[i].list) newInscription.faction = inscriptions[i].list.faction;
                     promises.push(Inscription.create(newInscription));
                 }
                 Q.allSettled(promises).then(
