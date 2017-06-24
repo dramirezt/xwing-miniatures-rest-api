@@ -230,7 +230,8 @@ tournamentRouter.route('/import')
                                                 })
                                             }
                                         }
-
+                                        inscriptions[j].list.pilots[k].pilot = inscriptions[j].list.pilots[k].name;
+                                        inscriptions[j].list.pilots[k].name = undefined;
                                         inscriptions[j].list.pilots[k].upgrades = upgrades;
                                     }
                                 }
