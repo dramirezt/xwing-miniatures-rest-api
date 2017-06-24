@@ -142,6 +142,7 @@ tournamentRouter.route('/import')
                                 ships: inscriptions[j].pilots,
                                 faction: inscriptions[j].faction
                             };
+                            console.log(list);
                             promises2.push(List.create(list));
                         }
                         Q.all(promises2).then(
