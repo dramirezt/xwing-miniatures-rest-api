@@ -107,7 +107,7 @@ tournamentRouter.route('/import')
                     newInscription.tournament = tournament._id;
                     promises.push(Inscription.create(newInscription));
                 }
-                Q.all(promises).then(
+                Q.allSettled(promises).then(
                     function (response) {
                         var promises2 = [];
                         for (var j = 0; j < response.length; j++) {
@@ -138,7 +138,7 @@ tournamentRouter.route('/import')
                             console.log(list.ships);
                             promises2.push(List.create(list));
                         }
-                        Q.all(promises2).then(
+                        Q.allSettled(promises2).then(
                             function (response) {
                                 res.contentType('application/json');
                                 res.json(tournament);
