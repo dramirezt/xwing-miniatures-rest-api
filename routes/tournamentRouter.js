@@ -92,7 +92,7 @@ tournamentRouter.route('/import')
         // var obj = JSON.parse(req.body.data);
         var obj = req.body.data;
         console.log(obj);
-        console.log(obj.tournament);
+        console.log(obj.data);
         var inscriptions = obj.tournament.players;
         var newTournament = {
             name: obj.tournament.name,
