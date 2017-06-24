@@ -111,6 +111,7 @@ tournamentRouter.route('/import')
                     function (response) {
                         var promises2 = [];
                         for (var j = 0; j < response.length; j++) {
+                            console.log('entra');
                             for (var k = 0; k < inscriptions[j].pilots.length; k++) {
                                 var upgrades = [];
                                 upgrades.concat(inscriptions[j].pilots[k].upgrades.ept);
@@ -128,6 +129,7 @@ tournamentRouter.route('/import')
                                 upgrades.concat(inscriptions[j].pilots[k].upgrades.bomb);
                                 upgrades.concat(inscriptions[j].pilots[k].upgrades.missile);
 
+                                console.log(upgrades);
                                 inscriptions[j].pilots[k].upgrades = upgrades;
                             }
                             var list = {
