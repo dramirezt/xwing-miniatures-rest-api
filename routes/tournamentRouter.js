@@ -10,6 +10,7 @@ var passport = require('passport');
 var multer = require('multer');
 var upload = multer({ dest: 'tmp/'});
 var opencpu = require("opencpu");
+var Q = require("q");
 
 tournamentRouter.use(bodyParser.json());
 
@@ -105,35 +106,74 @@ tournamentRouter.route('/import')
                             console.log("Error saving tournament");
                             return next(err);
                         }
-                        console.log("Tournament with id " + tournament._id + " created.");
-                        var listIndex = 0;
+                        var promises = [];
                         for (var i = 0; i < inscriptions.length; i++){
                             var newInscription = inscriptions[i];
                             newInscription.tournament = tournament._id;
-                            Inscription.create(newInscription, function (err, inscription) {
-                                if (err) return next(err);
-                                inscription.save(function(err, resp){
-                                    if(err) return next(err);
-                                    console.log(inscription.name + " Inscription with id " + inscription._id + " created.");
-                                    var list = {
-                                        inscription: inscription._id,
-                                        ships: inscriptions[listIndex].ships,
-                                        faction: inscriptions[listIndex].faction,
-                                    };
-                                    listIndex++;
-                                    console.log(list);
-                                    List.create(list, function (err, list) {
+                            promises.push(
+                                Inscription.create(newInscription, function (err, inscription) {
+                                    if (err) return next(err);
+                                    inscription.save(function (err, resp) {
                                         if (err) return next(err);
-                                        list.save(function(err, resp){
-                                            if(err) return next(err);
-                                            console.log("List with id " + list._id + " created.");
-                                        });
+                                        res.contentType('application/json');
+                                        res.json(inscription);
                                     });
-                                });
-                            });
+                                })
+                            );
                         }
-                        res.contentType('application/json');
-                        res.json(tournament);
+                        Q.all(promises).then(
+                            function (response){
+                                var promises2 = [];
+                                for (var j = 0; j < response.length; j++) {
+                                    var list = { inscription: response[j]._id, ships: inscriptions[j].ships, faction: inscriptions[j].faction };
+                                    promises2.push(
+                                        List.create(list, function (err, list) {
+                                            if (err) return next(err);
+                                            list.save(function (err, resp) {
+                                                if (err) return next(err);
+                                                res.contentType('application/json');
+                                                res.json(list);
+                                            });
+                                        })
+                                    );
+                                }
+                                Q.all(promises2).then(
+                                    function (response) {
+                                        res.contentType('application/json');
+                                        res.json(tournament);
+                                    }
+                                )
+                            }
+                        );
+                        // console.log("Tournament with id " + tournament._id + " created.");
+                        // var listIndex = 0;
+                        // for (var i = 0; i < inscriptions.length; i++){
+                        //     var newInscription = inscriptions[i];
+                        //     newInscription.tournament = tournament._id;
+                        //     Inscription.create(newInscription, function (err, inscription) {
+                        //         if (err) return next(err);
+                        //         inscription.save(function(err, resp){
+                        //             if(err) return next(err);
+                        //             console.log(inscription.name + " Inscription with id " + inscription._id + " created.");
+                        //             var list = {
+                        //                 inscription: inscription._id,
+                        //                 ships: inscriptions[listIndex].ships,
+                        //                 faction: inscriptions[listIndex].faction,
+                        //             };
+                        //             listIndex++;
+                        //             console.log(list);
+                        //             List.create(list, function (err, list) {
+                        //                 if (err) return next(err);
+                        //                 list.save(function(err, resp){
+                        //                     if(err) return next(err);
+                        //                     console.log("List with id " + list._id + " created.");
+                        //                 });
+                        //             });
+                        //         });
+                        //     });
+                        // }
+                        // res.contentType('application/json');
+                        // res.json(tournament);
                     });
                 });
                 // res.send(data);
