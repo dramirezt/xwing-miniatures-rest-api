@@ -238,6 +238,7 @@ tournamentRouter.route('/import')
                                 if (response[j].value._id) list.inscription = response[j].value._id;
                                 if (inscriptions[j].list.pilots) list.ships = inscriptions[j].list.pilots;
                                 if (inscriptions[j].list.faction) list.faction = inscriptions[j].list.faction;
+                                console.log(list);
                                 promises2.push(List.create(list));
                             }
                             else {
