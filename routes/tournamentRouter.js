@@ -116,6 +116,7 @@ tournamentRouter.route('/import')
                             if (inscriptions[j].list.pilots) {
                                 console.log('entra2');
                                 for (var k = 0; k < inscriptions[j].list.pilots.length; k++) {
+                                    console.log('entra4');
                                     var upgrades = [];
                                     var n;
                                     if (inscriptions[j].list.pilots[k].upgrades.title) {
