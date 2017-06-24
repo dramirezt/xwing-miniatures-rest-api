@@ -193,7 +193,9 @@ tournamentRouter.route('/import')
                                         }
                                     }
 
+                                    console.log(upgrades);
                                     inscriptions[j].list.pilots[k].upgrades = upgrades;
+                                    console.log(inscriptions[j].list.pilots[k].upgrades);
                                 }
                                 console.log('entra3');
                                 var list = {};
