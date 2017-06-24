@@ -117,6 +117,7 @@ tournamentRouter.route('/import')
                                 console.log('entra2');
                                 for (var k = 0; k < inscriptions[j].list.pilots.length; k++) {
                                     console.log('entra4');
+                                    console.log(inscriptions[j].list.pilots[k].upgrades);
                                     var upgrades = [];
                                     var n;
                                     if (inscriptions[j].list.pilots[k].upgrades.title) {
@@ -193,7 +194,6 @@ tournamentRouter.route('/import')
                                         }
                                     }
 
-                                    console.log(upgrades);
                                     inscriptions[j].list.pilots[k].upgrades = upgrades;
                                     console.log(inscriptions[j].list.pilots[k].upgrades);
                                 }
