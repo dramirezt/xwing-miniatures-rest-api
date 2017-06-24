@@ -102,20 +102,22 @@ tournamentRouter.route('/import')
                     return next(err);
                 }
                 var promises = [];
+                var faction = '';
                 for (var i = 0; i < inscriptions.length; i++) {
                     console.log(inscriptions[i]);
                     var newInscription = inscriptions[i];
                     newInscription.tournament = tournament._id;
-                    if (inscriptions[i].list) newInscription.faction = inscriptions[i].list.faction;
+                    if (inscriptions[i].list) {
+                        faction = inscriptions[i].list.faction;
+                        if (faction === "imperial") faction = "empire";
+                        newInscription.faction = faction;
+                    }
                     promises.push(Inscription.create(newInscription));
                 }
                 Q.allSettled(promises).then(
                     function (response) {
                         var promises2 = [];
-                        console.log(response[0]);
-                        console.log(response.length);
                         for (var j = 0; j < response.length; j++) {
-                            console.log(j);
                             if (inscriptions[j].list) {
                                 for (var k = 0; k < inscriptions[j].list.pilots.length; k++) {
                                     if(inscriptions[j].list.pilots[k].upgrades) {
@@ -126,7 +128,7 @@ tournamentRouter.route('/import')
                                                 upgrades.push({
                                                     name: inscriptions[j].list.pilots[k].upgrades.title[n],
                                                     slot: 'title'
-                                                })
+                                                });
                                             }
                                         }
                                         if (inscriptions[j].list.pilots[k].upgrades.mod) {
@@ -134,7 +136,7 @@ tournamentRouter.route('/import')
                                                 upgrades.push({
                                                     name: inscriptions[j].list.pilots[k].upgrades.mod[n],
                                                     slot: 'modification'
-                                                })
+                                                });
                                             }
                                         }
                                         if (inscriptions[j].list.pilots[k].upgrades.crew) {
@@ -142,7 +144,7 @@ tournamentRouter.route('/import')
                                                 upgrades.push({
                                                     name: inscriptions[j].list.pilots[k].upgrades.crew[n],
                                                     slot: 'crew'
-                                                })
+                                                });
                                             }
                                         }
                                         if (inscriptions[j].list.pilots[k].upgrades.system) {
@@ -150,7 +152,7 @@ tournamentRouter.route('/import')
                                                 upgrades.push({
                                                     name: inscriptions[j].list.pilots[k].upgrades.system[n],
                                                     slot: 'system'
-                                                })
+                                                });
                                             }
                                         }
                                         if (inscriptions[j].list.pilots[k].upgrades.illicit) {
@@ -158,7 +160,7 @@ tournamentRouter.route('/import')
                                                 upgrades.push({
                                                     name: inscriptions[j].list.pilots[k].upgrades.illicit[n],
                                                     slot: 'illicit'
-                                                })
+                                                });
                                             }
                                         }
                                         if (inscriptions[j].list.pilots[k].upgrades.samd) {
@@ -166,7 +168,7 @@ tournamentRouter.route('/import')
                                                 upgrades.push({
                                                     name: inscriptions[j].list.pilots[k].upgrades.samd[n],
                                                     slot: 'salvagedastromech'
-                                                })
+                                                });
                                             }
                                         }
                                         if (inscriptions[j].list.pilots[k].upgrades.cannon) {
@@ -174,7 +176,7 @@ tournamentRouter.route('/import')
                                                 upgrades.push({
                                                     name: inscriptions[j].list.pilots[k].upgrades.cannon[n],
                                                     slot: 'cannon'
-                                                })
+                                                });
                                             }
                                         }
                                         if (inscriptions[j].list.pilots[k].upgrades.tech) {
@@ -182,7 +184,7 @@ tournamentRouter.route('/import')
                                                 upgrades.push({
                                                     name: inscriptions[j].list.pilots[k].upgrades.tech[n],
                                                     slot: 'tech'
-                                                })
+                                                });
                                             }
                                         }
                                         if (inscriptions[j].list.pilots[k].upgrades.torpedo) {
@@ -190,7 +192,7 @@ tournamentRouter.route('/import')
                                                 upgrades.push({
                                                     name: inscriptions[j].list.pilots[k].upgrades.torpedo[n],
                                                     slot: 'torpedo'
-                                                })
+                                                });
                                             }
                                         }
                                         if (inscriptions[j].list.pilots[k].upgrades.turret) {
@@ -198,7 +200,7 @@ tournamentRouter.route('/import')
                                                 upgrades.push({
                                                     name: inscriptions[j].list.pilots[k].upgrades.turret[n],
                                                     slot: 'turret'
-                                                })
+                                                });
                                             }
                                         }
                                         if (inscriptions[j].list.pilots[k].upgrades.amd) {
@@ -206,7 +208,7 @@ tournamentRouter.route('/import')
                                                 upgrades.push({
                                                     name: inscriptions[j].list.pilots[k].upgrades.amd[n],
                                                     slot: 'astromech'
-                                                })
+                                                });
                                             }
                                         }
                                         if (inscriptions[j].list.pilots[k].upgrades.bomb) {
@@ -214,7 +216,7 @@ tournamentRouter.route('/import')
                                                 upgrades.push({
                                                     name: inscriptions[j].list.pilots[k].upgrades.bomb[n],
                                                     slot: 'bomb'
-                                                })
+                                                });
                                             }
                                         }
                                         if (inscriptions[j].list.pilots[k].upgrades.missile) {
@@ -222,7 +224,7 @@ tournamentRouter.route('/import')
                                                 upgrades.push({
                                                     name: inscriptions[j].list.pilots[k].upgrades.missile[n],
                                                     slot: 'missile'
-                                                })
+                                                });
                                             }
                                         }
                                         if (inscriptions[j].list.pilots[k].upgrades.ept) {
@@ -230,7 +232,7 @@ tournamentRouter.route('/import')
                                                 upgrades.push({
                                                     name: inscriptions[j].list.pilots[k].upgrades.ept[n],
                                                     slot: 'elite'
-                                                })
+                                                });
                                             }
                                         }
                                         inscriptions[j].list.pilots[k].pilot = inscriptions[j].list.pilots[k].name;
@@ -242,17 +244,11 @@ tournamentRouter.route('/import')
                                 if (response[j].value._id) list.inscription = response[j].value._id;
                                 if (inscriptions[j].list.pilots) list.ships = inscriptions[j].list.pilots;
                                 if (inscriptions[j].list.faction) list.faction = inscriptions[j].list.faction;
-                                console.log(list);
                                 promises2.push(List.create(list));
                             }
-                            else {
-                                console.log('no entra');
-                            }
                         }
-                        console.log('promises 2 creado, length: ' + promises2.length);
                         Q.allSettled(promises2).then(
                             function (response) {
-                                console.log('fin de la traza');
                                 res.contentType('application/json');
                                 res.json(tournament);
                             }
