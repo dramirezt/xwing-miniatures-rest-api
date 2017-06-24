@@ -89,10 +89,8 @@ tournamentRouter.route('/import')
         //     source: req.body.data
         // }, function (err, data) {
         //     if (!err) {
-        console.log(req.body.data);
         // var obj = JSON.parse(req.body.data);
         var obj = req.body.data;
-        console.log(obj);
         var inscriptions = obj.tournament.players;
         var newTournament = {
             name: obj.tournament.name,
@@ -101,6 +99,7 @@ tournamentRouter.route('/import')
             maxPlayers: inscriptions.length,
             finished: true,
         };
+        console.log(newTournament);
         Tournament.create(newTournament, function (err, tournament) {
             if (err) return next(err);
             tournament.save(function (err, resp) {
@@ -112,6 +111,7 @@ tournamentRouter.route('/import')
                 for (var i = 0; i < inscriptions.length; i++) {
                     var newInscription = inscriptions[i];
                     newInscription.tournament = tournament._id;
+                    console.log(newInscription);
                     promises.push(Inscription.create(newInscription));
                 }
                 Q.all(promises).then(
