@@ -241,9 +241,11 @@ tournamentRouter.route('/import')
                                     }
                                 }
                                 var list = {};
+                                var faction2 = inscriptions[j].list.faction;
+                                if (faction2 === 'imperial') faction2 = 'empire';
                                 if (response[j].value._id) list.inscription = response[j].value._id;
                                 if (inscriptions[j].list.pilots) list.ships = inscriptions[j].list.pilots;
-                                if (inscriptions[j].list.faction) list.faction = faction;
+                                if (inscriptions[j].list.faction) list.faction = faction2;
                                 promises2.push(List.create(list));
                             }
                         }
