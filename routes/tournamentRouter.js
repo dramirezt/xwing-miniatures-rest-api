@@ -111,33 +111,43 @@ tournamentRouter.route('/import')
                     function (response) {
                         var promises2 = [];
                         for (var j = 0; j < response.length; j++) {
-                            console.log('entra');
                             if (inscriptions[j].list.pilots) {
-                                console.log(inscriptions[j].list.pilots.length);
                                 for (var k = 0; k < inscriptions[j].list.pilots.length; k++) {
                                     var upgrades = [];
                                     upgrades = upgrades.concat(inscriptions[j].list.pilots[k].upgrades.ept);
-                                    upgrades = upgrades.concat(inscriptions[j].list.pilots[k].upgrades.title);
+                                    if (inscriptions[j].list.pilots[k].upgrades.title)
+                                        upgrades = upgrades.concat(inscriptions[j].list.pilots[k].upgrades.title);
+                                    if (inscriptions[j].list.pilots[k].upgrades.mod)
                                     upgrades = upgrades.concat(inscriptions[j].list.pilots[k].upgrades.mod);
+                                    if (inscriptions[j].list.pilots[k].upgrades.crew)
                                     upgrades = upgrades.concat(inscriptions[j].list.pilots[k].upgrades.crew);
+                                    if (inscriptions[j].list.pilots[k].upgrades.system)
                                     upgrades = upgrades.concat(inscriptions[j].list.pilots[k].upgrades.system);
+                                    if (inscriptions[j].list.pilots[k].upgrades.illicit)
                                     upgrades = upgrades.concat(inscriptions[j].list.pilots[k].upgrades.illicit);
+                                    if (inscriptions[j].list.pilots[k].upgrades.samd)
                                     upgrades = upgrades.concat(inscriptions[j].list.pilots[k].upgrades.samd);
+                                    if (inscriptions[j].list.pilots[k].upgrades.cannon)
                                     upgrades = upgrades.concat(inscriptions[j].list.pilots[k].upgrades.cannon);
+                                    if (inscriptions[j].list.pilots[k].upgrades.tech)
                                     upgrades = upgrades.concat(inscriptions[j].list.pilots[k].upgrades.tech);
+                                    if (inscriptions[j].list.pilots[k].upgrades.torpedo)
                                     upgrades = upgrades.concat(inscriptions[j].list.pilots[k].upgrades.torpedo);
+                                    if (inscriptions[j].list.pilots[k].upgrades.turret)
                                     upgrades = upgrades.concat(inscriptions[j].list.pilots[k].upgrades.turret);
+                                    if (inscriptions[j].list.pilots[k].upgrades.amd)
                                     upgrades = upgrades.concat(inscriptions[j].list.pilots[k].upgrades.amd);
+                                    if (inscriptions[j].list.pilots[k].upgrades.bomb)
                                     upgrades = upgrades.concat(inscriptions[j].list.pilots[k].upgrades.bomb);
+                                    if (inscriptions[j].list.pilots[k].upgrades.missile)
                                     upgrades = upgrades.concat(inscriptions[j].list.pilots[k].upgrades.missile);
 
-                                    console.log(upgrades);
-                                    inscriptions[j].pilots[k].upgrades = upgrades;
+                                    inscriptions[j].list.pilots[k].upgrades = upgrades;
                                 }
                                 var list = {
                                     inscription: response[j]._id,
-                                    ships: inscriptions[j].pilots,
-                                    faction: inscriptions[j].faction
+                                    ships: inscriptions[j].list.pilots,
+                                    faction: inscriptions[j].list.faction
                                 };
                                 console.log(list.ships);
                                 promises2.push(List.create(list));
