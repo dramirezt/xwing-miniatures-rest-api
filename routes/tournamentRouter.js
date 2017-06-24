@@ -114,47 +114,78 @@ tournamentRouter.route('/import')
                             if (inscriptions[j].list.pilots) {
                                 for (var k = 0; k < inscriptions[j].list.pilots.length; k++) {
                                     var upgrades = [];
-                                    for (var n = 0; n < inscriptions[j].list.pilots[k].upgrades.title.length; n++) {
-                                        upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.title[n], slot: 'title' })
+                                    if (inscriptions[j].list.pilots[k].upgrades.title) {
+                                        for (var n = 0; n < inscriptions[j].list.pilots[k].upgrades.title.length; n++) {
+                                            upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.title[n], slot: 'title' })
+                                        }
                                     }
-                                    for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.mod.length; n++) {
-                                        upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.mod[n], slot: 'modification' })
+                                    if (inscriptions[j].list.pilots[k].upgrades.mod) {
+                                        for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.mod.length; n++) {
+                                            upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.mod[n], slot: 'modification' })
+                                        }
                                     }
-                                    for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.crew.length; n++) {
-                                        upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.crew[n], slot: 'crew' })
+                                    if (inscriptions[j].list.pilots[k].upgrades.crew) {
+                                        for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.crew.length; n++) {
+                                            upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.crew[n], slot: 'crew' })
+                                        }
                                     }
-                                    for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.system.length; n++) {
-                                        upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.system[n], slot: 'system' })
+                                    if (inscriptions[j].list.pilots[k].upgrades.system) {
+                                        for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.system.length; n++) {
+                                            upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.system[n], slot: 'system' })
+                                        }
                                     }
-                                    for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.illicit.length; n++) {
-                                        upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.illicit[n], slot: 'illicit' })
+                                    if (inscriptions[j].list.pilots[k].upgrades.illicit) {
+                                        for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.illicit.length; n++) {
+                                            upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.illicit[n], slot: 'illicit' })
+                                        }
                                     }
-                                    for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.samd.length; n++) {
-                                        upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.samd[n], slot: 'salvagedastromech' })
+                                    if (inscriptions[j].list.pilots[k].upgrades.samd) {
+                                        for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.samd.length; n++) {
+                                            upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.samd[n], slot: 'salvagedastromech' })
+                                        }
                                     }
-                                    for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.cannon.length; n++) {
-                                        upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.cannon[n], slot: 'cannon' })
+                                    if (inscriptions[j].list.pilots[k].upgrades.cannon) {
+                                        for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.cannon.length; n++) {
+                                            upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.cannon[n], slot: 'cannon' })
+                                        }
                                     }
-                                    for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.tech.length; n++) {
-                                        upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.tech[n], slot: 'tech' })
+                                    if (inscriptions[j].list.pilots[k].upgrades.tech) {
+                                        for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.tech.length; n++) {
+                                            upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.tech[n], slot: 'tech' })
+                                        }
                                     }
-                                    for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.torpedo.length; n++) {
-                                        upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.torpedo[n], slot: 'torpedo' })
+                                    if (inscriptions[j].list.pilots[k].upgrades.torpedo) {
+                                        for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.torpedo.length; n++) {
+                                            upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.torpedo[n], slot: 'torpedo' })
+                                        }
                                     }
-                                    for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.turret.length; n++) {
-                                        upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.turret[n], slot: 'turret' })
+                                    if (inscriptions[j].list.pilots[k].upgrades.turret) {
+                                        for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.turret.length; n++) {
+                                            upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.turret[n], slot: 'turret' })
+                                        }
                                     }
-                                    for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.amd.length; n++) {
-                                        upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.amd[n], slot: 'astromech' })
+                                    if (inscriptions[j].list.pilots[k].upgrades.amd) {
+                                        for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.amd.length; n++) {
+                                            upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.amd[n], slot: 'astromech' })
+                                        }
                                     }
-                                    for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.bomb.length; n++) {
-                                        upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.bomb[n], slot: 'bomb' })
+                                    if (inscriptions[j].list.pilots[k].upgrades.bomb) {
+                                        for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.bomb.length; n++) {
+                                            upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.bomb[n], slot: 'bomb' })
+                                        }
                                     }
-                                    for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.missile.length; n++) {
-                                        upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.missile[n], slot: 'missile' })
+                                    if (inscriptions[j].list.pilots[k].upgrades.missile) {
+                                        for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.missile.length; n++) {
+                                            upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.missile[n], slot: 'missile' })
+                                        }
                                     }
-                                    for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.ept.length; n++) {
-                                        upgrades.push({ name: inscriptions[j].list.pilots[k].upgrades.ept[n], slot: 'elite' })
+                                    if (inscriptions[j].list.pilots[k].upgrades.ept) {
+                                        for (n = 0; n < inscriptions[j].list.pilots[k].upgrades.ept.length; n++) {
+                                            upgrades.push({
+                                                name: inscriptions[j].list.pilots[k].upgrades.ept[n],
+                                                slot: 'elite'
+                                            })
+                                        }
                                     }
 
                                     inscriptions[j].list.pilots[k].upgrades = upgrades;
