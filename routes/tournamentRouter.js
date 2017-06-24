@@ -85,14 +85,7 @@ tournamentRouter.route('/following/:start')
 
 tournamentRouter.route('/import')
     .post(function (req, res, next) {
-        // opencpu.rCall("/library/xwingjson/R/migrate_from_csv/json", {
-        //     source: req.body.data
-        // }, function (err, data) {
-        //     if (!err) {
         var obj = JSON.parse(req.body.data);
-        // var obj = req.body.data;
-        console.log(obj);
-        console.log(obj.tournament);
         var inscriptions = obj.tournament.players;
         var newTournament = {
             name: obj.tournament.name,
@@ -101,7 +94,6 @@ tournamentRouter.route('/import')
             maxPlayers: inscriptions.length,
             finished: true,
         };
-        console.log(newTournament);
         Tournament.create(newTournament, function (err, tournament) {
             if (err) return next(err);
             tournament.save(function (err, resp) {
@@ -113,7 +105,6 @@ tournamentRouter.route('/import')
                 for (var i = 0; i < inscriptions.length; i++) {
                     var newInscription = inscriptions[i];
                     newInscription.tournament = tournament._id;
-                    console.log(newInscription);
                     promises.push(Inscription.create(newInscription));
                 }
                 Q.all(promises).then(
@@ -144,7 +135,7 @@ tournamentRouter.route('/import')
                                 ships: inscriptions[j].pilots,
                                 faction: inscriptions[j].faction
                             };
-                            console.log(list);
+                            console.log(list.ships);
                             promises2.push(List.create(list));
                         }
                         Q.all(promises2).then(
@@ -157,12 +148,6 @@ tournamentRouter.route('/import')
                 );
             });
         })
-        // } else {
-        //     console.log("opencpu call failed.");
-        //     next(err);
-        // }
-        //     });
-        // }
     });
 
 tournamentRouter.route('/:tournamentId')
