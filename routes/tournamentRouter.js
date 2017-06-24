@@ -90,11 +90,11 @@ tournamentRouter.route('/import')
         // }, function (err, data) {
         //     if (!err) {
         var obj = JSON.parse(req.body.data);
-        var inscriptions = obj.players;
+        var inscriptions = obj.tournament.players;
         var newTournament = {
-            name: obj.name,
-            tier: obj.format,
-            startDate: obj.date,
+            name: obj.tournament.name,
+            tier: obj.tournament.format,
+            startDate: obj.tournament.date,
             maxPlayers: inscriptions.length,
             finished: true,
         };
